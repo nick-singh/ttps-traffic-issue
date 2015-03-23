@@ -2,6 +2,7 @@
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+import json
 
 #Variables that contains the user credentials to access Twitter API 
 access_token = "717397609-eVR9kuq30tAhbY26NNpruYDgkimVdB185ciVYgFt"
@@ -15,19 +16,32 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
         print data
+        dump_to_json('data-dump/data.json',data)
         return True
 
     def on_error(self, status):
         print status
 
+def exe_stream(term):
 
-if __name__ == '__main__':
+    if __name__ == '__main__':
 
-    #This handles Twitter authetification and the connection to Twitter Streaming API
-    l = StdOutListener()
-    auth = OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-    stream = Stream(auth, l)
+        #This handles Twitter authetification and the connection to Twitter Streaming API
+        l = StdOutListener()
+        auth = OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_token, access_token_secret)
+        stream = Stream(auth, l)
 
-    #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-    stream.filter(track=['TTPS', "#Trinidad"])
+        #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
+        stream.filter(track=term)
+
+def dump_to_json(file_name_and_path, data):    
+    f = open(file_name_and_path,'a')
+    f.write(data) 
+    f.close()
+
+
+exe_stream(["TTPS"])
+exe_stream(["#TTPS"])
+exe_stream(["Trinidad"])
+    
