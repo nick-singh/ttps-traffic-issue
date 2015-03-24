@@ -41,8 +41,8 @@ def dump_to_json(file_name_and_path, data):
     f.close()
 
 
-exe_stream(["TTPS"])
-exe_stream(["#TTPS"])
-exe_stream(["Trinidad"])
+#exe_stream(["TTPS"])
+exe_stream(["#TTPS","TTPS","@cnewslive","@tv6tnt","@expressupdates","#Trinidad Express"])
+#exe_stream(["Trinidad"])
 #exe_stream(["taylor swift"])
     
