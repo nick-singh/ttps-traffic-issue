@@ -1,0 +1,1 @@
+* * * * * python /root/ttps/ttps-traffic-issue/twitter_stream.py

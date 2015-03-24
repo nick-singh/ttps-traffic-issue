@@ -16,7 +16,7 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
         print data
-        dump_to_json('data-dump/data.json',data)
+        dump_to_json('data.json',data)
         return True
 
     def on_error(self, status):
@@ -44,4 +44,5 @@ def dump_to_json(file_name_and_path, data):
 exe_stream(["TTPS"])
 exe_stream(["#TTPS"])
 exe_stream(["Trinidad"])
+#exe_stream(["taylor swift"])
     
