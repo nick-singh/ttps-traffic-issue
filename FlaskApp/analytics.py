@@ -14,9 +14,9 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 tweets_data_path =  os.path.join(APP_ROOT, 'data.json')
 
-print tweets_data_path
+#print tweets_data_path
 
-
+#print tweets_data_path
 def load_tweets():    
   tweets_data = []
   print "Loading tweets"  
