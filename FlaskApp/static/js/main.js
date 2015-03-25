@@ -5,8 +5,9 @@
 	TRACKER.Routers.AppRouter = Backbone.Router.extend({
 
 		routes: {
-			"" 			: "dashboard",
-			"tweetList" : "tweetList"
+			"" 					: "dashboard",
+			"tweetList" 		: "tweetList",
+			"tweetList/:hash" 	: "tweetList"
 		},
 
 		initialize : function(){
@@ -23,6 +24,14 @@
 		tweetList : function(){
 			this.tweets = new TRACKER.Views.Tweets();				
 			$("#content").html(this.tweets.el);
+			selectMenuItem('tweets');	
+		},
+
+		tweetListHash : function(hash){
+			// this.tweets = new TRACKER.Views.Tweets();
+
+			$("#content").html(this.tweets.el);
+			$("#hash [value = '"+hash+"']").attr('selected',true).change();
 			selectMenuItem('tweets');	
 		}
 

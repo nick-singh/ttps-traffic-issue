@@ -35,7 +35,22 @@
                         dataLabels: {
                             enabled: true
                         }
-                    }
+                    },
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function() {
+                                    console.log(this.category);
+                                    for (var i = 0; i < this.series.data.length; i++) {
+                                        this.series.data[i].update({ color: '#7cb5ec' }, true, false);
+                                    }
+                                    this.update({ color: '#389868' }, true, false);
+                                    window.location.hash = "#tweetList/"+this.category;                                    
+                                }
+                            }
+                        }
+                    },
                 },
                 legend: {
                     layout: 'vertical',
