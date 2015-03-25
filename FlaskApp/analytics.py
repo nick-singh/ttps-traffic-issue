@@ -8,7 +8,13 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import RandomForestClassifier
 
 
-tweets_data_path =  os.path.abspath('data.json')      # Define a list for keeping the tweets
+# __file__ refers to the file settings.py 
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
+tweets_data_path =  os.path.join(APP_ROOT, 'data.json')
+
+print tweets_data_path
 
 
 def load_tweets():    
