@@ -41,13 +41,19 @@ def word_in_text(word, text):
     return True
   return False
 
-def term_in_tweet(word, text):
+
+def term_in_tweet(word, tweet):
   word = word.lower()
-  text = text.lower()
+  text = tweet['text'].lower()
   match =  re.search(word,text)
   if match:
-    return text
-  return "null"  
+    tweet_time = {
+      "id" : tweet['id'],
+      "text" : tweet['text'],
+      "timestamp" : tweet['created_at']
+    }
+    return tweet_time
+  return "null" 
 
 
 def list_to_json(list):
@@ -147,7 +153,7 @@ def hashtag_tweets():
   for key,value in tweet_hash:
 
     tweets[key] = tweets['text'].apply(lambda tweet: word_in_text(key, tweet))
-    text_list[key] = tweets['text'].apply(lambda tweet: term_in_tweet(key, tweet))
+    text_list[key] = map(lambda tweet:term_in_tweet(key, tweet),tweets_data)
 
   for key,value in tweet_hash:
     temp = []
