@@ -23,6 +23,14 @@
 			return this;
 		},
 
+
+		selectMenuItem: function (menuItem) {
+	        $('.side-nav li').removeClass('active');
+	        if (menuItem) {
+	            $('.' + menuItem).addClass('active');
+	        }
+        },
+
 		genTopHashTags : function(id){			
 			var topHashTags = new TRACKER.Collections.TopHashtagsCollection();
 			topHashTags.fetch({
@@ -32,6 +40,8 @@
 					 "Top Ten News Tweets", "In Trinidad and Tobago", 
 					 response.hash[0], "Tweets", 
 					 response.hash[1], "Popularity");
+
+					$.jStorage.set('hash',response.hash[0]);
 				},
 
 				error : function(model, response){

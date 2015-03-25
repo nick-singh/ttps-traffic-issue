@@ -5,7 +5,8 @@
 	TRACKER.Routers.AppRouter = Backbone.Router.extend({
 
 		routes: {
-			"" 	: "dashboard"
+			"" 			: "dashboard",
+			"tweetList" : "tweetList"
 		},
 
 		initialize : function(){
@@ -15,6 +16,11 @@
 		dashboard : function(){				
 			this.home = new TRACKER.Views.Home();				
 			$("#content").html(this.home.el);
+			this.home.selectMenuItem('home');
+		},
+
+		tweetList : function(){
+			this.home.selectMenuItem('tweets');	
 		}
 
 	});
