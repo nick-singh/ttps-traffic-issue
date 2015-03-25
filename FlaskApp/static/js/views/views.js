@@ -13,23 +13,14 @@
 		render : function(){
 			$(this.el).html(this.template());	
 			var topTags = this.$el.find("#top-tags"),
-			topTweets = this.$el.find("#top-tweets"),
-			tagsTweets = this.$el.find("#tags-tweets");
+			topTweets = this.$el.find("#top-tweets");			
 
 			this.genTopHashTags(topTags);
-			this.genTopTweets(topTweets);
-			this.genTagsTweets(tagsTweets);
+			this.genTopTweets(topTweets);			
 
 			return this;
 		},
 
-
-		selectMenuItem: function (menuItem) {
-	        $('.side-nav li').removeClass('active');
-	        if (menuItem) {
-	            $('.' + menuItem).addClass('active');
-	        }
-        },
 
 		genTopHashTags : function(id){			
 			var topHashTags = new TRACKER.Collections.TopHashtagsCollection();
@@ -65,21 +56,100 @@
 					console.log(response);
 				}
 			});
+		}
+
+	});
+
+	TRACKER.Views.Tweets = Backbone.View.extend({
+
+		className : "col-lg-12",
+
+		initialize : function(){
+			this.render();
 		},
 
-		genTagsTweets : function(id){			
-			var tagTweets = new TRACKER.Collections.TagTweetsCollection();
+		render : function(){
+			$(this.el).html(this.template());	
+			var hashList = this.$el.find("#hash");
+
+			$.each($.jStorage.get('hash'),function(i,d){
+				hashList.append(new TRACKER.Views.ListOptions({model:d}).el);
+			});
+			this.genTagsTweets();			
+
+			return this;
+		},		
+
+		genTagsTweets : function(){			
+			var tagTweets = new TRACKER.Collections.TagTweetsCollection(),
+			that = this;
 			tagTweets.fetch({
 				success : function(model, response){
-					console.log(response);
+					$.jStorage.set('tweetText',response.tag_tweets);	
+					that.findTweetsByName();				
 				},
 
 				error : function(model, response){
 					console.log(response);
 				}
 			});
+		},
+
+		events : {
+			"change #hash-form" : "findTweetsByName"
+		},
+
+		findTweetsByName : function(){
+			var key = $('#hash-form :selected').text(),
+			tweets = _.filter($.jStorage.get('tweetText'),function(comp){
+				return comp.name === key;
+			}),
+			tagsTweets = $(this.$el.find("#tags-tweets")[0]);	
+
+			tagsTweets.html("");
+
+			$.each(tweets[0].tweets,function(index, data){
+				tagsTweets.append(new TRACKER.Views.Tweetlist({model:data}).el);
+			});
+			console.log(tagsTweets);
 		}
 
 	});
+
+
+	TRACKER.Views.ListOptions = Backbone.View.extend({
+
+		tagName : 'option',
+
+		initialize : function(){
+			this.render();
+		},
+
+		render : function(){
+			$(this.el).html(this.model);			
+			this.$el.attr('value',this.model);
+			return this;
+		}
+	});
+
+
+	TRACKER.Views.Tweetlist = Backbone.View.extend({
+
+		tagName : 'li',
+
+		className : "list-group-item",
+
+		initialize : function(){
+			this.render();
+		},
+
+		render : function(){
+
+			$(this.el).html(this.template(this.model));			
+			
+			return this;
+		}
+	});
+
 	
 }(document, this, jQuery, Backbone, _));			
