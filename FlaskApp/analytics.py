@@ -1,3 +1,4 @@
+import os
 import operator
 import json
 import cPickle
@@ -7,8 +8,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import RandomForestClassifier
 
 
-tweets_data_path = 'data.json'
-                                      # Define a list for keeping the tweets
+tweets_data_path =  os.path.abspath('data.json')      # Define a list for keeping the tweets
+
 
 def load_tweets():    
   tweets_data = []
