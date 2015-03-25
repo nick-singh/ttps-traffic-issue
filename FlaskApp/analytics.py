@@ -10,7 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 tweets_data_path =  os.path.abspath('data.json')      # Define a list for keeping the tweets
 
-
+print tweets_data_path
 def load_tweets():    
   tweets_data = []
   print "Loading tweets"  
