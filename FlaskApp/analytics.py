@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 tweets_data_path =  os.path.abspath('data.json')      # Define a list for keeping the tweets
 
 
-  def load_tweets():    
+def load_tweets():    
   tweets_data = []
   print "Loading tweets"  
   tweets_file = open(tweets_data_path, "r")           # opens file
