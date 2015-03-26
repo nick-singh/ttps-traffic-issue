@@ -156,13 +156,13 @@ def hashtag_tweets():
     tweets[key] = tweets['text'].apply(lambda tweet: word_in_text(key, tweet))
     text_list[key] = map(lambda tweet:term_in_tweet(key, tweet),tweets_data)
 
-  for key,value in tweet_hash:
+  for key,value in tweet_hash:                        # for each key in the hash set
     temp = []
-    for tweet in text_list[key]:
-      if tweet != "null":
-        temp.append(tweet)
-    temp = sorted(temp,key=lambda k: k['timestamp'])
-    hashtag = {
+    for tweet in text_list[key]:                      # for each tweet in the tweets lists
+      if tweet != "null":                             # if the list did contain valid data
+        temp.append(tweet)                            # add the tweets id, timestamp and text to the list
+    temp = sorted(temp,key=lambda k: k['timestamp'])  # sort each tweet list by timestamp
+    hashtag = {                                       # store tweet list with it associated hashtags
           "name"  : key,          
           "tweets" : temp
     }    
