@@ -161,9 +161,11 @@ def hashtag_tweets():
     for tweet in text_list[key]:
       if tweet != "null":
         temp.append(tweet)
+    temp = sorted(temp,key=lambda k: k['timestamp'])
     hashtag = {
           "name"  : key,          
           "tweets" : temp
     }    
     result.append(hashtag)
+
   return result
