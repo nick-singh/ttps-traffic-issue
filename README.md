@@ -1,4 +1,4 @@
-Droplet Name: twitter-stream-nick
-IP Address: 104.236.97.238
+Droplet Name: caribtracker
+IP Address: 45.55.166.8
 Username: root
-Password: rootuser
+Password: r00tus3r
