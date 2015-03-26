@@ -7,7 +7,7 @@
 		routes: {
 			"" 					: "dashboard",
 			"tweetList" 		: "tweetList",
-			"tweetList/:hash" 	: "tweetList"
+			"tweetList/:hash" 	: "tweetListHash"
 		},
 
 		initialize : function(){
@@ -28,8 +28,7 @@
 		},
 
 		tweetListHash : function(hash){
-			// this.tweets = new TRACKER.Views.Tweets();
-
+			this.tweets = new TRACKER.Views.Tweets();
 			$("#content").html(this.tweets.el);
 			$("#hash [value = '"+hash+"']").attr('selected',true).change();
 			selectMenuItem('tweets');	

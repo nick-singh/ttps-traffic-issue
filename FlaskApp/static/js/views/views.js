@@ -110,8 +110,7 @@
 
 			$.each(tweets[0].tweets,function(index, data){
 				tagsTweets.append(new TRACKER.Views.Tweetlist({model:data}).el);
-			});
-			console.log(tagsTweets);
+			});			
 		}
 
 	});

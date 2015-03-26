@@ -26,7 +26,8 @@ def load_tweets():
         tweet = json.loads(line)                      # conver to json
         if tweet['id'] and tweet['text'] is not None: # we only want valid tweets
           if tweet['lang'] == 'en' :                  # and tweets that are only in english
-            tweets_data.append(tweet)        
+            if "ttps://" not in tweet['text']:
+              tweets_data.append(tweet)        
       except Exception, e:
         print e
   return tweets_data
