@@ -84,10 +84,10 @@ def pop_hashtags_list():
       hashtags = tweet["entities"]["hashtags"]        #  - if present then extract the hashtags
       for ht in hashtags:                             # For every hashtag get the hashtag text value
         if ht != None:                                
-          if ht["text"].encode("utf-8") in tweet_hash.keys():  # Check whether hashtag already in dictionary
-            tweet_hash[ht["text"].encode("utf-8")] += 1        # - If it is then increment its frequency by 1 
+          if ht["text"].encode("utf-8").lower() in tweet_hash.keys():  # Check whether hashtag already in dictionary
+            tweet_hash[ht["text"].encode("utf-8").lower()] += 1        # - If it is then increment its frequency by 1 
           else:
-            tweet_hash[ht["text"].encode("utf-8")] = 1         # - Else initialise the hashtag with frequency as 1
+            tweet_hash[ht["text"].encode("utf-8").lower()] = 1         # - Else initialise the hashtag with frequency as 1
  
   sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:20]) # Filter the top ten tweets  
   
@@ -107,10 +107,10 @@ def pop_hashtags():
       hashtags = tweet["entities"]["hashtags"]        #  - if present then extract the hashtags
       for ht in hashtags:                             # For every hashtag get the hashtag text value
         if ht != None:                                
-          if ht["text"].encode("utf-8") in tweet_hash.keys():  # Check whether hashtag already in dictionary
-            tweet_hash[ht["text"].encode("utf-8")] += 1        # - If it is then increment its frequency by 1 
+          if ht["text"].encode("utf-8").lower() in tweet_hash.keys():  # Check whether hashtag already in dictionary
+            tweet_hash[ht["text"].encode("utf-8").lower()] += 1        # - If it is then increment its frequency by 1 
           else:
-            tweet_hash[ht["text"].encode("utf-8")] = 1         # - Else initialise the hashtag with frequency as 1
+            tweet_hash[ht["text"].encode("utf-8").lower()] = 1         # - Else initialise the hashtag with frequency as 1
  
   sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:20]) # Filter the top ten tweets  
   
