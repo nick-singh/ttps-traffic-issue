@@ -48,8 +48,7 @@ exe_stream(["#TTPS","TTPS",
             "@GuardianTT" ,"T&T Guardian",
             "@TTMetOffice", "TTMetService",
             "@ctelevision", "@CNC3TV",
-            "@iGovTT", "@newsgovtt", "@TTParliament",
-            "@ODPM_TT", "@wintvworld"])
+            "@iGovTT", "@newsgovtt", "@TTParliament"])
 #exe_stream(["Trinidad"])
 #exe_stream(["taylor swift"])
     
