@@ -89,7 +89,7 @@ def pop_hashtags_list():
           else:
             tweet_hash[ht["text"].encode("utf-8")] = 1         # - Else initialise the hashtag with frequency as 1
  
-  sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:10]) # Filter the top ten tweets  
+  sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:20]) # Filter the top ten tweets  
   
   temp = sorted(sortedHashTags.items(), key=lambda kv: (kv[1],kv[0]),reverse=True)  # - based on the frequency(descending order)                                            
   for key,value in temp:
@@ -112,7 +112,7 @@ def pop_hashtags():
           else:
             tweet_hash[ht["text"].encode("utf-8")] = 1         # - Else initialise the hashtag with frequency as 1
  
-  sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:10]) # Filter the top ten tweets  
+  sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:20]) # Filter the top ten tweets  
   
   return sorted(sortedHashTags.items(), key=lambda kv: (kv[1],kv[0]),reverse=True)  # - based on the frequency(descending order)                                            
 
