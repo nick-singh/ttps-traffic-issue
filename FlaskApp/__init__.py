@@ -35,6 +35,15 @@ def top_tweets():
 		return jsonify({"top_tweets" : {}}), 404		
 
 
+# @FlaskApp.route('/get/top/hashtag/tweets/<key>/<start>/<offset>', methods=['GET'])
+# def top_hashtag_tweets(key,start,offset):
+# 	top_tweets = analytics.hashtag_tweets(key,start,offset)
+	
+# 	if top_tweets is not None:
+# 		return jsonify({"tag_tweets" :top_tweets}), 200
+# 	else :
+# 		return jsonify({"tag_tweets" : {}}), 404		
+
 @FlaskApp.route('/get/top/hashtag/tweets', methods=['GET'])
 def top_hashtag_tweets():
 	top_tweets = analytics.hashtag_tweets()
@@ -42,7 +51,8 @@ def top_hashtag_tweets():
 	if top_tweets is not None:
 		return jsonify({"tag_tweets" :top_tweets}), 200
 	else :
-		return jsonify({"tag_tweets" : {}}), 404		
+		return jsonify({"tag_tweets" : {}}), 404	
+
 
 if __name__ == "__main__":
     FlaskApp.run(debug=True)
