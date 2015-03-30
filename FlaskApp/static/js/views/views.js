@@ -109,8 +109,7 @@
 			tagsTweets.html("");
 
 			$.each(tweets[0].tweets,function(index, data){
-				var temp = data.text.parseURL().parseHashtag().parseUsername();
-				tagsTweets.append(new TRACKER.Views.Tweetlist({model:temp}).el);
+				tagsTweets.append(new TRACKER.Views.Tweetlist({model:data}).el);
 			});			
 		}
 
@@ -145,6 +144,11 @@
 
 		render : function(){
 			// this.model.text = this.urlify(this.model.text);			
+			if(this.model.parsed === "False"){
+				this.model.text = this.model.text.parseURL().parseHashtag().parseUsername();
+				this.model.parsed = "True";
+			}
+			
 			$(this.el).html(this.template(this.model));			
 			
 			return this;

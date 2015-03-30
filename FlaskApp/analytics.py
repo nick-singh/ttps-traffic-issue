@@ -54,7 +54,8 @@ def term_in_tweet(word, tweet):
     tweet_time = {
       "id"          : tweet['id'],
       "text"        : tweet['text'],
-      "timestamp"   : datetime.fromtimestamp(time.mktime(timestamp))
+      "timestamp"   : datetime.fromtimestamp(time.mktime(timestamp)),
+      "parsed"      : "False"
       # ,
       # "sentiment" : sp.classify_tweet(tweet['text'])
     }
@@ -169,8 +170,8 @@ def hashtag_tweets():
         temp.append(tweet)                                          # add the tweets id, timestamp and text to the list
     temp = sorted(temp,key=lambda k: k['timestamp'],reverse=True)   # sort each tweet list by timestamp
     hashtag = {                                                     # store tweet list with it associated hashtags
-          "name"  : key,          
-          "tweets" : temp
+          "name"    : key,          
+          "tweets"  : temp
     }    
     result.append(hashtag)
 
