@@ -109,7 +109,8 @@
 			tagsTweets.html("");
 
 			$.each(tweets[0].tweets,function(index, data){
-				tagsTweets.append(new TRACKER.Views.Tweetlist({model:data}).el);
+				var temp = data.text.parseURL().parseHashtag().parseUsername();
+				tagsTweets.append(new TRACKER.Views.Tweetlist({model:temp}).el);
 			});			
 		}
 
@@ -143,8 +144,7 @@
 		},
 
 		render : function(){
-			// this.model.text = this.urlify(this.model.text);
-			this.model.text = this.model.text.parseURL().parseHashtag().parseUsername();
+			// this.model.text = this.urlify(this.model.text);			
 			$(this.el).html(this.template(this.model));			
 			
 			return this;
