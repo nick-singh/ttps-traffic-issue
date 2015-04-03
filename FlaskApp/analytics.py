@@ -17,6 +17,23 @@ tweets_data_path =  os.path.join(APP_ROOT, 'data.json')
 #print tweets_data_path
 
 #print tweets_data_path
+# def load_tweets():    
+#   tweets_data = []
+#   print "Loading tweets"  
+#   tweets_file = open(tweets_data_path, "r")           # opens file
+#   for line in tweets_file:                            # for each line in the file
+#       try:
+#         tweet = json.loads(line)                      # conver to json
+#         if tweet['id'] and tweet['text'] is not None: # we only want valid tweets
+#           if tweet['lang'] == 'en' :                  # and tweets that are only in english
+#             if "ttps://" not in tweet['text']:
+#               tweets_data.append(tweet)        
+#       except Exception, e:
+#         print e
+#   return tweets_data
+#   print "tweets loaded"
+
+
 def load_tweets():    
   tweets_data = []
   print "Loading tweets"  
@@ -38,7 +55,7 @@ def load_tweets():
                       if ht["text"].encode("utf-8").lower() == 'trinidad':
                         ht["text"] = 'TrinidadExpress'                  
                     print ht["text"]
-                    
+
               tweets_data.append(tweet)        
       except Exception, e:
         print e
