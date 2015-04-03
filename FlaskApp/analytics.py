@@ -27,6 +27,18 @@ def load_tweets():
         if tweet['id'] and tweet['text'] is not None: # we only want valid tweets
           if tweet['lang'] == 'en' :                  # and tweets that are only in english
             if "ttps://" not in tweet['text']:
+
+              if '#Trinidad Express' in tweet['text']:
+                tweet['text'] = tweet['text'].replace('#Trinidad Express', '#TrinidadExpress')
+
+                if "entities" in tweet.keys():                    # Check whether entities tags present
+                  hashtags = tweet["entities"]["hashtags"]
+                  for ht in hashtags:
+                    if ht is not None:                      
+                      if ht["text"].encode("utf-8").lower() == 'trinidad':
+                        ht["text"] = 'TrinidadExpress'                  
+                    print ht["text"]
+                    
               tweets_data.append(tweet)        
       except Exception, e:
         print e
