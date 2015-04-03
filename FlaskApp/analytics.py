@@ -54,7 +54,7 @@ def load_tweets():
                     if ht is not None:                      
                       if ht["text"].encode("utf-8").lower() == 'trinidad':
                         ht["text"] = 'TrinidadExpress'                  
-                    print ht["text"]
+                    # print ht["text"]
 
               tweets_data.append(tweet)        
       except Exception, e:
