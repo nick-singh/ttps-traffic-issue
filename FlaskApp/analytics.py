@@ -1,6 +1,5 @@
 import os,operator,json,cPickle,re,time
 import pandas as pd
-import sentiment_processor as sp
 from time import strftime
 from datetime import datetime
 from email.utils import parsedate
