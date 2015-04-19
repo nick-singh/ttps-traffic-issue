@@ -45,10 +45,8 @@ def dump_to_json(file_name_and_path, data):
 exe_stream(["#TTPS","TTPS",
             "@cnewslive","@tv6tnt",
             "@expressupdates","#Trinidad Express", 
-            "@GuardianTT" ,"T&T Guardian",
-            "@TTMetOffice", "TTMetService",
-            "@ctelevision", "@CNC3TV",
-            "@iGovTT", "@newsgovtt", "@TTParliament"])
+            "@GuardianTT" ,"T&T Guardian"])
+#	    "@ctelevision","@CNC3TV"])
 #exe_stream(["Trinidad"])
 #exe_stream(["taylor swift"])
     
