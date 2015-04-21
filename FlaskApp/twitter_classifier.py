@@ -52,7 +52,10 @@ class TwitterClassifier():
 	    letters_only = re.sub("[^a-zA-Z]", " ", tweet_text) 
 	    #
 	    # 3. Convert to lower case, split into individual words
-	    words = letters_only.lower().split()                             
+	    words = letters_only.lower().split()       
+	    #
+	    # Removing the word RT
+	    words = [x for x in words if x != "rt"]                      
 	    #
 	    # 4. In Python, searching a set is much faster than searching
 	    #   a list, so convert the stop words to a set
@@ -91,7 +94,3 @@ class TwitterClassifier():
 	    for word in self.features:
 	        features['contains(%s)' % word] = (word in document_words)
 	    return features
-
-
-
-		
