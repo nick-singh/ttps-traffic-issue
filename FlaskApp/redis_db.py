@@ -26,6 +26,7 @@ def get_hashtags( tweet):
 
 def date_to_unixtimestamp(_date):
   dt = dateutil.parser.parse(_date)
+  print int(time.mktime(dt.timetuple()))
   return int(time.mktime(dt.timetuple()))
 
 
@@ -42,9 +43,10 @@ def add_to_hashList(conn, text, tweet_id, timestamp):
 	zset = 'hashtagsFreq:'
 	numberHahstags = conn.zcard(zset)
 	hashtags = conn.zrange(zset,0,numberHahstags)
-	print 'lets check of the hts terms apper in the tweet'
+	print 'lets check if the hts terms apper in the tweet'
 	for ht in hashtags:
 		if word_in_text(ht,text):
+			print "found " + ht +" in tweet"
 			conn.zadd('hashtags:'+ht, tweet_id, timestamp)	
 
 
@@ -78,6 +80,11 @@ def add_tweet(conn, tweet):
 				conn.zadd(hashtag+key, tweet_id, timestamp)					
 				print "added to " + key
 				print conn.zscore(hashtagsFreq, key)
+
+			# we still want to add the tweet to a hash
+			# if the hashtag term appears in the tweet
+			print 'Checking for other terms..'
+			add_to_hashList(conn,tweet['text'], tweet_id, timestamp)
 		else:
 			# 
 			# the tweet did not contain any hashtags
@@ -94,7 +101,5 @@ def add_tweet(conn, tweet):
 		conn.hmset('tweet:'+tweet_id,tweet)
 	except Exception, e:
 		print e
-		raise
-	
-
+		raise	
 	return tweet_id

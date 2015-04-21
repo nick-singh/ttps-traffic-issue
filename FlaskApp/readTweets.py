@@ -50,6 +50,8 @@ def load_js_tweet():
 
 
 def store_and_process_tweet(tweet):
+  conn = Redis() 
+  twitterClassifier = TwitterClassifier()
   if tweet['id'] and tweet['text'] is not None: # we only want valid js_tweet
     if tweet['lang'] == 'en' :                  # and js_tweet that are only in english
       if "ttps://" not in tweet['text']:
@@ -65,7 +67,7 @@ def store_and_process_tweet(tweet):
                   ht["text"] = 'TrinidadExpress'            
         tweet['sentiment'] = twitterClassifier.get_sentiment(tweet['text'])
         print redis_db.add_tweet(conn, tweet)
-        js_tweet_data.append(tweet)
+        # js_tweet_data.append(tweet)
 
 
 def date_to_unixtimestamp(_date):
@@ -76,4 +78,4 @@ def date_to_unixtimestamp(_date):
 load_js_tweet()
 # print load_js_tweet()[3].hashtags
 # for tweet in load_js_tweet():
-# 	print tweet['sentiment']
+# print tweet['sentiment']
