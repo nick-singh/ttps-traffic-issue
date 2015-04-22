@@ -3,6 +3,7 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 import json, readTweets
+from multiprocessing import Process
 
 #Variables that contains the user credentials to access Twitter API 
 access_token = "717397609-eVR9kuq30tAhbY26NNpruYDgkimVdB185ciVYgFt"
@@ -43,10 +44,13 @@ def dump_to_json(file_name_and_path, data):
 
 
 #exe_stream(["TTPS"])
-exe_stream(["#TTPS","TTPS",
+
+p = Process(target=exe_stream(["#TTPS","TTPS",
             "@cnewslive","@tv6tnt",
             "@expressupdates","#Trinidad Express", 
-            "@GuardianTT" ,"T&T Guardian"])
+            "@GuardianTT" ,"T&T Guardian"]))
+p.start()
+p.join()
 #	    "@ctelevision","@CNC3TV"])
 #exe_stream(["Trinidad"])
 #exe_stream(["taylor swift"])
