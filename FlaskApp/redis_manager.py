@@ -9,6 +9,8 @@ from redis import Redis
 
 ONE_WEEK_IN_SECONDS = 7 * 86400
 
+ONE_DAY_IN_SECONDS = 86400
+
 def weeks_between(start_date, end_date):
 	end_date = datetime.fromtimestamp(end_date)
 	start_date = datetime.fromtimestamp(start_date)
@@ -94,13 +96,13 @@ def track_hashtag_freq(hashtag='trinidad'):
 	start = conn.zrangebyscore('hashtags:'+hashtag,'-inf','+inf',0,1,True)[0][1]	
 	hashtag_freq = []
 	while start < end:		
-		temp = start + ONE_WEEK_IN_SECONDS # get one week later
+		temp = start + ONE_DAY_IN_SECONDS # get one week later
 		num_hash_per_week = get_hashtag_tweets_by_time(start,temp,hashtag)		
 		hashtag_freq.append({
 			"start":datetime.fromtimestamp(start),
 			"end":datetime.fromtimestamp(temp), 
 			"freq": num_hash_per_week[hashtag]})		
-		start+=ONE_WEEK_IN_SECONDS
+		start+=ONE_DAY_IN_SECONDS
 	return hashtag_freq
 
 
@@ -132,14 +134,14 @@ def track_hashtag_sentiment(hashtag='trinidad'):
 	start = conn.zrangebyscore('hashtags:'+hashtag,'-inf','+inf',0,1,True)[0][1]	
 	hashtag_freq = []
 	while start < end:		
-		temp = start + ONE_WEEK_IN_SECONDS # get one week later
+		temp = start + ONE_DAY_IN_SECONDS # get one week later
 		hash_sentiment_per_week = get_sentiment_of_hashtag_by_time(start,temp,hashtag)		
 		hashtag_freq.append({
 			"start":datetime.fromtimestamp(start),
 			"end":datetime.fromtimestamp(temp), 
 			"pos": hash_sentiment_per_week['pos'],
 			"neg": hash_sentiment_per_week['neg']})
-		start+=ONE_WEEK_IN_SECONDS
+		start+=ONE_DAY_IN_SECONDS
 	return hashtag_freq
 
 
