@@ -75,7 +75,7 @@ def date_to_unixtimestamp(_date):
   return int(time.mktime(dt.timetuple()))
 
 
-load_js_tweet()
+# load_js_tweet()
 # print load_js_tweet()[3].hashtags
 # for tweet in load_js_tweet():
 # print tweet['sentiment']

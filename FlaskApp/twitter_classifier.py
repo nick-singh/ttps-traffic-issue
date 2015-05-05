@@ -6,16 +6,16 @@ from bs4 import BeautifulSoup
 # __file__ refers to the file settings.py 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-FEATURES = os.path.join(APP_ROOT,'larger-data-set/60000_features.json')
+FEATURES = os.path.join(APP_ROOT,'larger-data-set/37500_train_10000_features.pickle')
 
-CLASSIFIER = os.path.join(APP_ROOT,'larger-data-set/60000_classifier.pickle')
+CLASSIFIER = os.path.join(APP_ROOT,'larger-data-set/37500_train_10000_classifier.pickle')
 
 
 
 class TwitterClassifier():
 	"""docstring for TwitterClassifier"""
 	def __init__(self):		
-		self.features = json.load(open(FEATURES,'r'))
+		self.features = cPickle.load(open(FEATURES,'rb'))
 		self.classifier = cPickle.load(open(CLASSIFIER, 'rb'))
 
 	features = None
@@ -89,8 +89,4 @@ class TwitterClassifier():
 
 
 	def extract_features(self, document):
-	    document_words = set(document)
-	    features = {}
-	    for word in self.features:
-	        features['contains(%s)' % word] = (word in document_words)
-	    return features
+	    return dict([(word, True) for word in document if word in self.features])
