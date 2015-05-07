@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-ng-app>
+<html ng-app='caribTrack'>
 
 <head>
 
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Carib Tracker</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -74,10 +74,10 @@
         </nav>
 
         <div id="page-wrapper">
+            <div ng-view></div>
+            <!-- <div class="container-fluid">
 
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
@@ -89,12 +89,11 @@
                             </li>
                         </ol>
                     </div>
-                </div>
-                <!-- /.row -->
+                </div>                
                 <div class="row" id="content">                    
 
                 </div>               
-            </div>
+            </div> -->
             <!-- /.container-fluid -->
 
         </div>
@@ -105,10 +104,14 @@
 
     <!-- jQuery -->
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/vendor/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src = "js/controllers/controllers.js"></script>
+    <script type="text/javascript" src = "js/routes.js"></script>
 
 </body>
 
