@@ -2,16 +2,29 @@
 
 	angular.module('caribTrack.controllers',[])
 
-	.controller('GeneralDataController',[function($scope){
+	.controller('GeneralDataController',function($scope, GeneralData){
 
+		$scope.performance = [];
+		init();			
+		
+		function init(){
+			selectMenuItem('home');
+			$scope.performance = GeneralData.getSentimentPerformance('ttps');
+		}
 
-		console.log('home');
+		function selectMenuItem (menuItem) {
+	        $('.side-nav li').removeClass('active');
+	        if (menuItem) {
+	            $('.' + menuItem).addClass('active');
+	        }        
+		}		
 
-	}])
+	})
 
-	.controller('TweetsController',[function($scope){
+	.controller('TweetsController',function($scope){
 
 
 		console.log('tweets');
 
-	}]);
+	});
+

@@ -115,5 +115,15 @@ def tweet_text_by_time_hash(start, end, hashtag):
 	else:
 		return jsonify({"tweets":{}}), 404
 
+
+@FlaskApp.route('/get/hashtag/association/by/time/<start>/<end>/<hashtag>', methods=["GET"])		
+def get_hash_assiciation(start, end, hashtag):
+	hashtags_list = redis_manager.get_hash_assiciation(start, end, hashtag)
+
+	if hashtags_list is not None:
+		return jsonify({"hashtags":hashtags_list}), 200
+	else:
+		return jsonify({"hashtags":{}}), 404		
+
 if __name__ == "__main__":
     FlaskApp.run(debug=True)

@@ -3,8 +3,17 @@ import dateutil.parser, time, operator, re
 from time import strftime
 from datetime import datetime
 from redis import Redis 
+from nltk.corpus import stopwords
 
 TWEET_SCORE = 32
+
+TWEET_HMSET = 'tweet:'
+HASHTAGS_FREQ_SET = 'hashtagsFreq:'
+HASHTAGS_SET = 'hashtags:'
+TWEET_TIME_SET = 'tweetTime:'
+TWEET_HASHTAG_SET = 'tweetId:'
+
+STOPS = set(stopwords.words("english"))
 
 def get_hashtags( tweet):  
 
@@ -31,8 +40,10 @@ def date_to_unixtimestamp(_date):
 
 
 def word_in_text(word, text):
-  word = word.lower()
-  text = text.lower()
+  word = word.lower()  
+  text = text.lower().split()
+  text = [w for w in text if not w in STOPS and len(w) > 1] 
+  text = " ".join(text)
   match =  re.search(word,text)
   if match:
     return True
@@ -40,14 +51,16 @@ def word_in_text(word, text):
 
 
 def add_to_hashList(conn, text, tweet_id, timestamp):
-	zset = 'hashtagsFreq:'
-	numberHahstags = conn.zcard(zset)
-	hashtags = conn.zrange(zset,0,numberHahstags)
+	
+	numberHahstags = conn.zcard(HASHTAGS_FREQ_SET)
+	hashtags = conn.zrange(HASHTAGS_FREQ_SET,0,numberHahstags)
 	print 'lets check if the hts terms apper in the tweet'
 	for ht in hashtags:
-		if word_in_text(ht,text):
+		if len(ht) > 1 and word_in_text(ht,text):
 			print "found " + ht +" in tweet"
-			conn.zadd('hashtags:'+ht, tweet_id, timestamp)	
+			conn.zadd(HASHTAGS_SET+ht, tweet_id, timestamp)	
+			# Add all the hashtags that are associated with this tweet
+			conn.zadd(TWEET_HASHTAG_SET+tweet_id, ht, timestamp)
 
 
 def add_tweet(conn, tweet):
@@ -58,10 +71,7 @@ def add_tweet(conn, tweet):
 	# get the time the tweet was created to use 
 	# as the score 
 	timestamp = date_to_unixtimestamp(tweet['created_at'])
-
-	hashtagsFreq = 'hashtagsFreq:'
-	hashtag = 'hashtags:'
-	tweetTime = 'tweetTime:'
+	
 	try:
 		# if there are hashtags in the hashtagsList
 		if hashtagsList:
@@ -73,13 +83,15 @@ def add_tweet(conn, tweet):
 				# we will be able to get the most popular hashtag used 
 				# in all of the tweets store by time	
 				# 
-				conn.zincrby(hashtagsFreq,key,TWEET_SCORE)
+				conn.zincrby(HASHTAGS_FREQ_SET,key,TWEET_SCORE)
 				# add the tweet associated with the hashtag in another
 				# sorted set and use its timestamp as the score
+				# make sure the hashtags are not stop words
 				# 
-				conn.zadd(hashtag+key, tweet_id, timestamp)					
-				print "added to " + key
-				print conn.zscore(hashtagsFreq, key)
+				if key not in STOPS:
+					conn.zadd(HASHTAGS_SET+key, tweet_id, timestamp)					
+					print "added to " + key
+					print conn.zscore(HASHTAGS_FREQ_SET, key)
 
 			# we still want to add the tweet to a hash
 			# if the hashtag term appears in the tweet
@@ -96,9 +108,9 @@ def add_tweet(conn, tweet):
 		# finally we add the actual tweet byt time
 		# we can search this set if we desire to only
 		# get tweets by time
-		conn.zadd(tweetTime,tweet_id, timestamp)
+		conn.zadd(TWEET_TIME_SET,tweet_id, timestamp)
 		# create a hash map to store the tweet
-		conn.hmset('tweet:'+tweet_id,tweet)
+		conn.hmset(TWEET_HMSET+tweet_id,tweet)
 	except Exception, e:
 		print e
 		raise	

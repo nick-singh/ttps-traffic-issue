@@ -3,6 +3,7 @@
 	angular.module('caribTrack',
 	[
 		'caribTrack.controllers',
+		'caribTrack.factories',
 		'ngRoute'
 
 	]).config(['$routeProvider',

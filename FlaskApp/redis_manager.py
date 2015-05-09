@@ -27,7 +27,7 @@ def term_in_tweet(word, tweet):
   return "null" 
 
 
-def get_tweets_by_time(start_date=None, end_date=None):
+def get_tweetId_by_time(start_date=None, end_date=None):
 	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
 	end_date =  time.time() if end_date is None else end_date
 	conn = Redis()	
@@ -39,10 +39,27 @@ def get_tweets_by_time(start_date=None, end_date=None):
 	return tweets
 
 
+def get_hash_assiciation(start_date=None, end_date=None, hashtag='trinidad'):
+	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
+	end_date =  time.time() if end_date is None else end_date
+	conn = Redis()	
+	tweet_id_list = conn.zrangebyscore('hashtags:'+hashtag,start_date,end_date)
+	hashtags = {}
+	for id in tweet_id_list:
+		tags = conn.zrangebyscore('tweetId:'+id,start_date,end_date)
+		for t in tags:
+			if t in hashtags.keys():
+				hashtags[t] += 1
+			else :
+				hashtags[t] = 1
+	sortedHashTags = sorted(hashtags.items(), key=lambda kv: (kv[1]),reverse=True)
+	return sortedHashTags
+
+
 def get_top_hashtags_by_time(start_date=None, end_date=None, limit=None):
 	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
 	end_date =  time.time() if end_date is None else end_date
-	tweets_data = get_tweets_by_time(start_date,end_date)	
+	tweets_data = get_tweetId_by_time(start_date,end_date)	
 	result = []
 	k = []
 	v = []
@@ -72,7 +89,7 @@ def get_top_hashtags_by_time(start_date=None, end_date=None, limit=None):
 def get_hashtag_tweets_by_time(start_date=None, end_date=None, hashtag='trinidad'):
 	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
 	end_date =  time.time() if end_date is None else end_date
-	tweets_data = get_tweets_by_time(start_date,end_date)	
+	tweets_data = get_tweetId_by_time(start_date,end_date)	
 	result = []
 	k = []
 	v = []
@@ -110,7 +127,7 @@ def track_hashtag_freq(hashtag='trinidad'):
 def get_sentiment_of_hashtag_by_time(start_date=None, end_date=None, hashtag='trinidad'):
 	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
 	end_date =  time.time() if end_date is None else end_date
-	tweets_data = get_tweets_by_time(start_date,end_date)		
+	tweets_data = get_tweetId_by_time(start_date,end_date)		
 
 	tweet_hash = {
 		"pos" : 0,
