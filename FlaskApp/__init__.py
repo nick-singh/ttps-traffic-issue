@@ -66,9 +66,9 @@ def get_top_hashtags_by_time(start, end, limit):
 		return jsonify({"hashtags":{}}), 404
 
 
-@FlaskApp.route('/get/hashtags/tweets/by/time/<start>/<end>/<hashtag>', methods=['GET'])		
-def get_hashtag_tweets_by_time(start, end,hashtag):
-	tweet_list = redis_manager.get_hashtag_tweets_by_time(start, end, hashtag)
+@FlaskApp.route('/get/hashtags/tweets/count/by/time/<start>/<end>/<hashtag>', methods=['GET'])		
+def get_hashtag_tweet_count_by_time(start, end,hashtag):
+	tweet_list = redis_manager.get_hashtag_tweet_count_by_time(start, end, hashtag)
 
 	if tweet_list is not None:
 		return jsonify({"tweets":tweet_list}), 200
@@ -123,7 +123,18 @@ def get_hash_assiciation(start, end, hashtag):
 	if hashtags_list is not None:
 		return jsonify({"hashtags":hashtags_list}), 200
 	else:
-		return jsonify({"hashtags":{}}), 404		
+		return jsonify({"hashtags":{}}), 404	
+
+
+@FlaskApp.route('/get/top/hashtags/association/by/time/<start>/<end>/<limit>', methods=["GET"])
+def get_hashtags_list_association(start, end, limit):
+	hash_list = redis_manager.get_hashtags_list_association(start, end, int(limit))
+
+	if hash_list is not None:
+		return jsonify({"hashtags":hash_list}), 200
+	else:
+		return jsonify({"hashtags":{}}), 404
+
 
 if __name__ == "__main__":
     FlaskApp.run(debug=True)

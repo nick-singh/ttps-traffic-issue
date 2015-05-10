@@ -51,12 +51,24 @@ def get_hash_assiciation(start_date=None, end_date=None, hashtag='trinidad'):
 			if t in hashtags.keys():
 				hashtags[t] += 1
 			else :
-				hashtags[t] = 1
-	sortedHashTags = sorted(hashtags.items(), key=lambda kv: (kv[1]),reverse=True)
-	return sortedHashTags
+				hashtags[t] = 1	
+	obj = {
+		"hashtag" 		: hashtag,
+		"assoication" 	: hashtags
+	}
+	return obj
 
 
-def get_top_hashtags_by_time(start_date=None, end_date=None, limit=None):
+def get_hashtags_list_association(start_date=None, end_date=None, limit=10):
+	hashtags = get_top_hashtags_by_time(start_date,end_date,limit)	
+	hash_list = []
+	for htg in hashtags[0]:
+		assoication = get_hash_assiciation(start_date,end_date,htg)
+		hash_list.append(assoication)
+	return hash_list
+
+
+def get_top_hashtags_by_time(start_date=None, end_date=None, limit=10):
 	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
 	end_date =  time.time() if end_date is None else end_date
 	tweets_data = get_tweetId_by_time(start_date,end_date)	
@@ -86,7 +98,7 @@ def get_top_hashtags_by_time(start_date=None, end_date=None, limit=None):
 	return result
 
 
-def get_hashtag_tweets_by_time(start_date=None, end_date=None, hashtag='trinidad'):
+def get_hashtag_tweet_count_by_time(start_date=None, end_date=None, hashtag='trinidad'):
 	start_date =  time.time() - ONE_WEEK_IN_SECONDS if start_date is None else start_date
 	end_date =  time.time() if end_date is None else end_date
 	tweets_data = get_tweetId_by_time(start_date,end_date)	
@@ -114,7 +126,7 @@ def track_hashtag_freq(hashtag='trinidad'):
 	hashtag_freq = []
 	while start < end:		
 		temp = start + ONE_DAY_IN_SECONDS # get one week later
-		num_hash_per_week = get_hashtag_tweets_by_time(start,temp,hashtag)		
+		num_hash_per_week = get_hashtag_tweet_count_by_time(start,temp,hashtag)		
 		hashtag_freq.append({
 			"start":datetime.fromtimestamp(start),
 			"end":datetime.fromtimestamp(temp), 

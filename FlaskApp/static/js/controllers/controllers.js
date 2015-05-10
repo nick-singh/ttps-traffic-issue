@@ -2,29 +2,51 @@
 
 	angular.module('caribTrack.controllers',[])
 
-	.controller('GeneralDataController',function($scope, GeneralData){
+	.controller('HomeCtrl',function($scope, Factories){
 
 		$scope.performance = [];
 		init();			
 		
 		function init(){
-			selectMenuItem('home');
-			$scope.performance = GeneralData.getSentimentPerformance('ttps');
-		}
-
-		function selectMenuItem (menuItem) {
-	        $('.side-nav li').removeClass('active');
-	        if (menuItem) {
-	            $('.' + menuItem).addClass('active');
-	        }        
-		}		
+			Factories.selectMenuItem('home');
+			$scope.performance = Factories.getSentimentPerformance('ttps');
+		}			
 
 	})
 
-	.controller('TweetsController',function($scope){
+	.controller('TweetDetailsCtrl',function($scope, Factories){
+
+		init();			
+		
+		function init(){
+			Factories.selectMenuItem('tweetsdetails');			
+		}
+		console.log('TweetDetailsCtrl');
+
+	})
+
+	.controller('RealTimeCtrl',function($scope, Factories){
+
+		init();			
+		
+		function init(){
+			Factories.selectMenuItem('realtime');			
+		}
+
+		console.log('RealTimeCtrl');
+
+	})
 
 
-		console.log('tweets');
+	.controller('SearchCtrl',function($scope, Factories){
+
+		init();			
+		
+		function init(){
+			Factories.selectMenuItem('search');			
+		}
+
+		console.log('SearchCtrl');
 
 	});
 
