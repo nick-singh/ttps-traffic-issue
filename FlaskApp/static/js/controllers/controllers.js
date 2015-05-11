@@ -2,15 +2,20 @@
 
 	angular.module('caribTrack.controllers',[])
 
-	.controller('HomeCtrl',function($scope, Factories){
+	.controller('HomeCtrl',function ($scope, Factories, getTopHashtagAssociation){
 
-		$scope.performance = [];
-		init();			
-		
-		function init(){
-			Factories.selectMenuItem('home');
-			$scope.performance = Factories.getSentimentPerformance('ttps');
-		}			
+		$scope.topAsso = [];
+		var topAssoPromise = getTopHashtagAssociation.get(1414668800,1427673600,6);
+
+		topAssoPromise.then(function(data){
+			$scope.topAsso = data;				
+			$("#viewport").springy({
+			    graph: Graphs.graph($scope.topAsso),
+			    nodeSelected: function(node){
+			      console.log('Node selected: ' + JSON.stringify(node.data));
+			    }
+			});
+		});					
 
 	})
 
@@ -47,6 +52,19 @@
 		}
 
 		console.log('SearchCtrl');
+
+	})
+
+
+	.controller('AboutCtrl',function($scope, Factories){
+
+		init();			
+		
+		function init(){
+			Factories.selectMenuItem('about');			
+		}
+
+		console.log('AboutCtrl');
 
 	});
 

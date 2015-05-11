@@ -24,6 +24,9 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -54,26 +57,20 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="home">
-                        <a href="#/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="#/"><i class="fa fa-fw fa-table"></i> Dashboard</a>
                     </li>
                     <li class="tweetsdetails">
-                        <a href="#/tweetDetails"><i class="fa fa-fw fa-table"></i> Tweet Details</a>
+                        <a href="#/tweetDetails"><i class="fa fa-fw fa-bar-chart-o"></i> Tweet Details</a>
                     </li>
                     <li class="realtime">
-                        <a href="#/realtime"><i class="fa fa-fw fa-table"></i> Real Time Tweets</a>
+                        <a href="#/realtime"><i class="fa fa-fw fa-desktop"></i> Real Time Tweets</a>
                     </li>
                     <li class="search">
-                        <a href="#/search"><i class="fa fa-fw fa-table"></i> Search logged Tweets</a>
+                        <a href="#/search"><i class="fa fa-fw fa-edit"></i> Search logged Tweets</a>
                     </li>
-<!--                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+                    <li class="about">
+                        <a href="#/about"><i class="fa fa-fw fa-dashboard"></i> About</a>
                     </li>
-                    <li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -81,27 +78,6 @@
 
         <div id="page-wrapper">
             <div ng-view></div>
-            <!-- <div class="container-fluid">
-
-                
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
-                    </div>
-                </div>                
-                <div class="row" id="content">                    
-
-                </div>               
-            </div> -->
-            <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
 
@@ -110,11 +86,14 @@
 
     <!-- jQuery -->
     <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/springy.js"></script>
+    <script src="js/vendor/springyui.js"></script>    
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src = "js/services/graphs.js"></script>
 
     <script type="text/javascript" src = "js/factories/factories.js"></script>
     <script type="text/javascript" src = "js/controllers/controllers.js"></script>

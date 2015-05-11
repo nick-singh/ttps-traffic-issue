@@ -2,6 +2,22 @@
 
 	angular.module('caribTrack.factories',[])
 
+
+	.service('getTopHashtagAssociation', function($http, $q){
+		var deffered = $q.defer();		
+
+		this.get = function(start, end, hashtag){
+			$http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+hashtag)
+
+			.then(function(data){
+				deffered.resolve(data.data.hashtags);				
+			});
+
+			return deffered.promise;
+		};
+
+	})
+
 	.factory('Factories',function($http){
 
 		var factory = {};
@@ -108,15 +124,18 @@
 
 
 		factory.getTopHashtagAssociation = function(start, end, hashtag){
+			
 			$http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+hashtag).
-			success(function(res) {
+			success(function(res){
 				console.log(res);
 				return res;
 			}).
-			error(function(res) {
+			error(function(res){
 				console.log(res);
 				return {};
-			});
+			}).then(function(res) {
+                return res;
+            });
 		};
 
 
