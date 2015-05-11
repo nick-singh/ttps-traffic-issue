@@ -17,7 +17,7 @@
                 xAxis: {
                     categories: xAxisD
                 },
-                 yAxis: {
+                yAxis: {
                     min: 0,
                     title: {
                         text: yAxisD,

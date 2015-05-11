@@ -62,8 +62,8 @@ def get_hash_assiciation(start_date=None, end_date=None, hashtag='trinidad'):
 def get_hashtags_list_association(start_date=None, end_date=None, limit=10):
 	hashtags = get_top_hashtags_by_time(start_date,end_date,limit)	
 	hash_list = []
-	for htg in hashtags[0]:
-		assoication = get_hash_assiciation(start_date,end_date,htg)
+	for htg in hashtags:
+		assoication = get_hash_assiciation(start_date,end_date,htg[0])
 		hash_list.append(assoication)
 	return hash_list
 
@@ -90,12 +90,7 @@ def get_top_hashtags_by_time(start_date=None, end_date=None, limit=10):
 	sortedHashTags = dict(sorted(tweet_hash.items(), key=operator.itemgetter(1), reverse=True)[:limit]) # Filter the top ten tweets  
 
 	temp = sorted(sortedHashTags.items(), key=lambda kv: (kv[1],kv[0]),reverse=True)  # - based on the frequency(descending order)                                            
-	for key,value in temp:
-		k.append(key)
-		v.append(value)   
-	result.append(k)  
-	result.append(v)  
-	return result
+	return temp
 
 
 def get_hashtag_tweet_count_by_time(start_date=None, end_date=None, hashtag='trinidad'):
@@ -153,6 +148,7 @@ def get_sentiment_of_hashtag_by_time(start_date=None, end_date=None, hashtag='tr
 				tweet_hash['pos']+=1
 			else:						
 				tweet_hash['neg']+=1   	
+	tweet_hash['neg'] *= -1
 	return tweet_hash	
 
 
@@ -172,6 +168,27 @@ def track_hashtag_sentiment(hashtag='trinidad'):
 			"neg": hash_sentiment_per_week['neg']})
 		start+=ONE_DAY_IN_SECONDS
 	return hashtag_freq
+
+
+def get_top_hash_sentiment_by_time(start, end, limit):
+	hashtags = get_top_hashtags_by_time(start, end, limit)
+	htgs = []
+	pos = []
+	neg = []
+
+	for ht in hashtags:
+		sentiment = get_sentiment_of_hashtag_by_time(start, end, ht[0])
+		htgs.append(ht[0])
+		pos.append(sentiment['pos'])
+		neg.append(sentiment['neg'])
+
+	return {
+		"hashtags" : htgs,
+		"positive" : pos,
+		"negative" : neg
+	}
+
+
 
 
 def tweet_text_by_time_hash(start_date=None, end_date=None, hashtag='ttps'):

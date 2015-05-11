@@ -18,6 +18,44 @@
 
 	})
 
+
+	.service('getTopHashtagsByTime', function($http, $q){
+		var deffered = $q.defer();		
+
+		this.get = function(start, end, limit){
+			$http.get('/get/top/hashtags/by/time/'+start+'/'+end+'/'+limit)
+
+			.error(function(res){
+				console.log(res);
+			})
+
+			.then(function(data){
+				deffered.resolve(data.data.hashtags);				
+			});
+
+			return deffered.promise;
+		};
+	})
+
+
+	.service('getTopSentimentByTime', function($http, $q){
+		var deffered = $q.defer();		
+
+		this.get = function(start, end, limit){
+			$http.get('/get/top/sentiment/by/time/'+start+'/'+end+'/'+limit)
+
+			.error(function(res){
+				console.log(res);
+			})
+
+			.then(function(data){
+				deffered.resolve(data.data.hashtags);				
+			});
+
+			return deffered.promise;
+		};
+	})
+
 	.factory('Factories',function($http){
 
 		var factory = {};
@@ -27,18 +65,6 @@
 	        if (menuItem) {
 	            $('.' + menuItem).addClass('active');
 	        }        
-		};
-
-		factory.getTopHashtagsByTime = function(start, end, limit){
-			$http.get('/get/top/hashtags/by/time/'+start+'/'+end+'/'+limit).
-			success(function(res){
-				console.log(res);
-				return res;
-			}).
-			error(function(res){
-				console.log(res);
-				return {};
-			});
 		};
 
 
@@ -121,23 +147,6 @@
 				return {};
 			});
 		};
-
-
-		factory.getTopHashtagAssociation = function(start, end, hashtag){
-			
-			$http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+hashtag).
-			success(function(res){
-				console.log(res);
-				return res;
-			}).
-			error(function(res){
-				console.log(res);
-				return {};
-			}).then(function(res) {
-                return res;
-            });
-		};
-
 
 		return factory;
 	});

@@ -66,6 +66,16 @@ def get_top_hashtags_by_time(start, end, limit):
 		return jsonify({"hashtags":{}}), 404
 
 
+@FlaskApp.route('/get/top/sentiment/by/time/<start>/<end>/<limit>', methods=["GET"])
+def get_top_hash_sentiment_by_time(start, end, limit):
+	hash_list = redis_manager.get_top_hash_sentiment_by_time(start, end, int(limit))
+
+	if hash_list is not None:
+		return jsonify({"hashtags":hash_list}), 200
+	else:
+		return jsonify({"hashtags":{}}), 404
+
+
 @FlaskApp.route('/get/hashtags/tweets/count/by/time/<start>/<end>/<hashtag>', methods=['GET'])		
 def get_hashtag_tweet_count_by_time(start, end,hashtag):
 	tweet_list = redis_manager.get_hashtag_tweet_count_by_time(start, end, hashtag)
