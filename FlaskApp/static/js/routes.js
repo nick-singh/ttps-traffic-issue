@@ -42,3 +42,12 @@
 
 			.otherwise({redirectTo : '/'});			
 	}]);
+
+	// .run(function($rootScope, ngProgress) {
+	//   $rootScope.$on('$routeChangeSatrt', function(ev,data) {
+	//     ngProgress.start();
+	//   });
+	//   $rootScope.$on('$routeChangeSuccess', function(ev,data) {
+	//     ngProgress.complete();
+	//   });
+	// });

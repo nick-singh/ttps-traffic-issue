@@ -45,13 +45,18 @@ def get_hash_assiciation(start_date=None, end_date=None, hashtag='trinidad'):
 	conn = Redis()	
 	tweet_id_list = conn.zrangebyscore('hashtags:'+hashtag,start_date,end_date)
 	hashtags = {}
+	count = 0
 	for id in tweet_id_list:
 		tags = conn.zrangebyscore('tweetId:'+id,start_date,end_date)
 		for t in tags:
-			if t in hashtags.keys():
-				hashtags[t] += 1
+			if count < 8:				
+				if t in hashtags.keys():
+					hashtags[t] += 1
+				else :
+					hashtags[t] = 1	
+					count += 1
 			else :
-				hashtags[t] = 1	
+				break
 	obj = {
 		"hashtag" 		: hashtag,
 		"assoication" 	: hashtags
