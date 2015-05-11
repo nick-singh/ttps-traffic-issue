@@ -3,8 +3,8 @@
 	angular.module('caribTrack.controllers',[])
 
 	.controller('HomeCtrl',function ($scope, Factories, getTopHashtagAssociation, getTopHashtagsByTime, getTopSentimentByTime){
-		var start = Date.now(),
-		end = start - (7 * 86400);
+		var start = 1425668800,
+		end = 1427673600;
 		Factories.selectMenuItem('home');			
 
 		$scope.topAsso = [];		
