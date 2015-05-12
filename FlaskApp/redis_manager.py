@@ -22,11 +22,15 @@ def number_of_weeks():
 	conn = Redis()	
 	end = time.time()
 	start = conn.zrangebyscore('tweetTime:','-inf','+inf',0,1,True)[0][1]
-	num_weeks = 0
-	while start < end:
-		num_weeks+= 1
+	week_start = []
+	while start < (end - ONE_WEEK_IN_SECONDS):
+		temp = {
+			"unix":start, 
+			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
+		}
+		week_start.append(temp)
 		start += ONE_WEEK_IN_SECONDS
-	return num_weeks
+	return week_start[::-1]
 
 def term_in_tweet(word, tweet):
   word = word.lower()
@@ -202,8 +206,6 @@ def get_top_hash_sentiment_by_time(start, end, limit):
 		"positive" : pos,
 		"negative" : neg
 	}
-
-
 
 
 def tweet_text_by_time_hash(start_date=None, end_date=None, hashtag='ttps'):

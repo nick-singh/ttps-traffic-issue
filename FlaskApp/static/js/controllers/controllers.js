@@ -4,46 +4,62 @@
 
 	.controller('HomeCtrl',function ($scope, Factories, getNumberWeeks, 
 									getTopHashtagAssociation, getTopHashtagsByTime, 
-									getTopSentimentByTime){
-		// var start = 1425668800,
-		// end = 1427673600;
-		var end = Math.round((new Date()).getTime() / 1000),
-		start = end - (7 * 86400);
+									getTopSentimentByTime, test){
 
 		Factories.selectMenuItem('home');			
 
-		$scope.topAsso = [];		
-		var topAssoPromise = getTopHashtagAssociation.get(start,end,10);
+		$scope.weeks = [];
+		var numWeeks = getNumberWeeks.get();
+		numWeeks.then(function(data){			
+			$scope.weeks = data.data.weeks;			
+			$scope.week = $scope.weeks[0].unix;
+			var start = parseInt($scope.week),
+			end = start + (7 * 86400);
+			init(start, end);
+		});				
 
-		topAssoPromise.then(function(data){
-			$scope.topAsso = data;				
-			$("#viewport").springy({
-			    graph: Graphs.graph($scope.topAsso),
-			    nodeSelected: function(node){
-			      console.log('Node selected: ' + JSON.stringify(node.data));
-			    }
+		$scope.change = function(){
+			// console.log($scope.week);
+			var start = parseInt($scope.week),
+			end = start + (7 * 86400);
+			init(start, end);
+		};
+
+		function init(start, end){
+			
+			var topAssoPromise = getTopHashtagAssociation.get(start,end,10);
+
+			topAssoPromise.then(function(res){	
+				var data = res.data.hashtags;
+				$("#viewport").springy({
+				    graph: Graphs.graph(data),
+				    nodeSelected: function(node){
+				      console.log('Node selected: ' + JSON.stringify(node.data));
+				    }
+				});
+			});	
+
+			
+			var topHashPromise = getTopHashtagsByTime.get(start,end, 10);
+
+			topHashPromise.then(function(res){	
+				var data = res.data.hashtags;					
+				$('#freqDist').empty();
+				Charts.genColChart('#freqDist','Trending Hashtags', 'in Trinidad and Tobago',data);
+			});	
+
+			
+			var topSentimentPromise = getTopSentimentByTime.get(start,end, 10);
+
+			topSentimentPromise.then(function(res){
+				var data = res.data.hashtags;				
+				$('#topSentiment').empty();
+				Charts.genBarChart('#topSentiment','Trending Hashtag Sentiment',
+									 'in Trinidad and Tobago',data.hashtags,{},
+									 data.positive, data.negative);
 			});
-		});	
-
-
-		$scope.topHash = [];
-		var topHashPromise = getTopHashtagsByTime.get(start,end, 10);
-
-		topHashPromise.then(function(data){
-			$scope.topHash = data;							
-			Charts.genColChart('#freqDist','Trending Hashtags', 'in Trinidad and Tobago',$scope.topHash);
-		});	
-
-		$scope.topSentiment = [];
-		var topSentimentPromise = getTopSentimentByTime.get(start,end, 10);
-
-		topSentimentPromise.then(function(data){
-			$scope.topSentiment = data;
-			// console.log(JSON.stringify(data));			
-			Charts.genBarChart('#topSentiment','Trending Hashtag Sentiment',
-								 'in Trinidad and Tobago',$scope.topSentiment.hashtags,{},
-								 $scope.topSentiment.positive, $scope.topSentiment.negative);
-		});
+		}		
+				
 	})
 
 	.controller('TweetDetailsCtrl',function($scope, Factories){

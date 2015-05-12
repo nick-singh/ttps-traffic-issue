@@ -3,72 +3,73 @@
 	angular.module('caribTrack.factories',[])
 
 
-	.service('getNumberWeeks', function($http, $q){
-		var deffered = $q.defer();		
+	.service('getNumberWeeks', function($http){
+		var deffered = {};		
 
-		this.get = function(){
-			$http.get('get/number/weeks')
-
-			.then(function(data){
-				deffered.resolve(data.data.hashtags);				
+		deffered.get = function(){
+			return $http.get('get/number/weeks')
+			.error(function(res){
+				console.log(res);
 			});
-
-			return deffered.promise;
 		};
+
+		return deffered;
 
 	})
 
-	.service('getTopHashtagAssociation', function($http, $q){
-		var deffered = $q.defer();		
+	.service('getTopHashtagAssociation', function($http){
+		var deffered = {};		
 
-		this.get = function(start, end, hashtag){
-			$http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+hashtag)
-
-			.then(function(data){
-				deffered.resolve(data.data.hashtags);				
+		deffered.get = function(start, end, hashtag){			
+			return $http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+hashtag)
+			.error(function(res){
+				console.log(res);
 			});
-
-			return deffered.promise;
 		};
+		return deffered;
 
 	})
 
 
-	.service('getTopHashtagsByTime', function($http, $q){
-		var deffered = $q.defer();		
+	.service('getTopHashtagsByTime', function($http){
+		var deffered = {};	
 
-		this.get = function(start, end, limit){
-			$http.get('/get/top/hashtags/by/time/'+start+'/'+end+'/'+limit)
+		deffered.get = function(start, end, limit){			
+			return $http.get('/get/top/hashtags/by/time/'+start+'/'+end+'/'+limit)
+			.error(function(res){
+				console.log(res);
+			});		
+		};
+		return deffered;
+	})
+
+	.service('test', function($http){
+
+		var testService = {};
+	    //Gets the list of nuclear weapons
+	    testService.get = function(start, end, limit){			
+			return $http.get('/get/top/hashtags/by/time/'+start+'/'+end+'/'+limit)
 
 			.error(function(res){
 				console.log(res);
-			})
-
-			.then(function(data){
-				deffered.resolve(data.data.hashtags);				
 			});
+	    };
 
-			return deffered.promise;
-		};
+	    return testService;
 	})
 
 
 	.service('getTopSentimentByTime', function($http, $q){
-		var deffered = $q.defer();		
+		var deffered = {};		
 
-		this.get = function(start, end, limit){
-			$http.get('/get/top/sentiment/by/time/'+start+'/'+end+'/'+limit)
+		deffered.get = function(start, end, limit){			
+			return $http.get('/get/top/sentiment/by/time/'+start+'/'+end+'/'+limit)
 
 			.error(function(res){
 				console.log(res);
-			})
-
-			.then(function(data){
-				deffered.resolve(data.data.hashtags);				
-			});
-
-			return deffered.promise;
+			});			
 		};
+		return deffered;
 	})
 
 	.factory('Factories',function($http){

@@ -20,12 +20,8 @@
                 <form class="form-inline">
                   <div class="form-group">
                     <label for="week">View Trends from: </label>
-                    <select class="form-control">
-                      <option>1 week ago</option>
-                      <option>2 week ago</option>
-                      <option>3 week ago</option>
-                      <option>4 week ago</option>
-                      <option>5 week ago</option>
+                    <select class="form-control" ng-model = "week" ng-change="change()">
+                        <option ng-repeat = "n in weeks" value="{{n.unix}}"> {{n.datetime}}</option>        
                     </select>
                   </div>        
                 </form>
