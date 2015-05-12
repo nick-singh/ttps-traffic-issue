@@ -4,7 +4,7 @@ FlaskApp = Flask(__name__, static_url_path = "")
 
 
 import os, datetime, json
-import redis_manager, analytics
+import redis_manager
 from flask import jsonify, abort, make_response, request, url_for
 from flask.ext.httpauth import HTTPBasicAuth
 
@@ -15,46 +15,14 @@ def root():
     return FlaskApp.send_static_file('index.html')
 
 
-
-@FlaskApp.route('/get/popular/hashtags', methods=['GET'])
-def popular_hashtags():
-	hashs = analytics.pop_hashtags_list()	
-	if hashs is not None:
-		return jsonify({"hash" : hashs}), 200
-	else :
-		return jsonify({"hash" : {}}), 404
-
-
-@FlaskApp.route('/get/top/relevant/tweets', methods=['GET'])
-def top_tweets():
-	top_tweets = analytics.top_relevant_tweets()
-	
-	if top_tweets is not None:
-		return jsonify({"top_tweets" :top_tweets}), 200
-	else :
-		return jsonify({"top_tweets" : {}}), 404		
-
-
-# @FlaskApp.route('/get/top/hashtag/tweets/<key>/<start>/<offset>', methods=['GET'])
-# def top_hashtag_tweets(key,start,offset):
-# 	top_tweets = analytics.hashtag_tweets(key,start,offset)
-	
-# 	if top_tweets is not None:
-# 		return jsonify({"tag_tweets" :top_tweets}), 200
-# 	else :
-# 		return jsonify({"tag_tweets" : {}}), 404		
-
-@FlaskApp.route('/get/top/hashtag/tweets', methods=['GET'])
-def top_hashtag_tweets():
-	top_tweets = analytics.hashtag_tweets()
-	
-	if top_tweets is not None:
-		return jsonify({"tag_tweets" :top_tweets}), 200
-	else :
-		return jsonify({"tag_tweets" : {}}), 404	
-
-
-# New Services...		
+@FlaskApp.route('/get/number/weeks', methods=["GET"])
+def get_number_of_weeks():
+	weeks = redis_manager.number_of_weeks()
+	if weeks is not None:
+		return jsonify({"weeks":weeks}), 200
+	else:
+		return jsonify({"weeks":{}}), 404
+		
 
 @FlaskApp.route('/get/top/hashtags/by/time/<start>/<end>/<limit>', methods=["GET"])
 def get_top_hashtags_by_time(start, end, limit):

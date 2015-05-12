@@ -2,7 +2,9 @@
 
 	angular.module('caribTrack.controllers',[])
 
-	.controller('HomeCtrl',function ($scope, Factories, getTopHashtagAssociation, getTopHashtagsByTime, getTopSentimentByTime){
+	.controller('HomeCtrl',function ($scope, Factories, getNumberWeeks, 
+									getTopHashtagAssociation, getTopHashtagsByTime, 
+									getTopSentimentByTime){
 		// var start = 1425668800,
 		// end = 1427673600;
 		var end = Math.round((new Date()).getTime() / 1000),

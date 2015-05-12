@@ -3,6 +3,21 @@
 	angular.module('caribTrack.factories',[])
 
 
+	.service('getNumberWeeks', function($http, $q){
+		var deffered = $q.defer();		
+
+		this.get = function(){
+			$http.get('get/number/weeks')
+
+			.then(function(data){
+				deffered.resolve(data.data.hashtags);				
+			});
+
+			return deffered.promise;
+		};
+
+	})
+
 	.service('getTopHashtagAssociation', function($http, $q){
 		var deffered = $q.defer();		
 

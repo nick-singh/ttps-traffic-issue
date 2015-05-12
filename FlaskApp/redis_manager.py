@@ -11,12 +11,22 @@ ONE_WEEK_IN_SECONDS = 7 * 86400
 
 ONE_DAY_IN_SECONDS = 86400
 
-def weeks_between(start_date, end_date):
-	end_date = datetime.fromtimestamp(end_date)
-	start_date = datetime.fromtimestamp(start_date)
-	weeks = rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=end_date)
-	return weeks.count()
+# def weeks_between(start_date, end_date):
+# 	end_date = datetime.fromtimestamp(end_date)
+# 	start_date = datetime.fromtimestamp(start_date)
+# 	weeks = rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=end_date)
+# 	return weeks.count()
 
+
+def number_of_weeks():
+	conn = Redis()	
+	end = time.time()
+	start = conn.zrangebyscore('tweetTime:','-inf','+inf',0,1,True)[0][1]
+	num_weeks = 0
+	while start < end:
+		num_weeks+= 1
+		start += ONE_WEEK_IN_SECONDS
+	return num_weeks
 
 def term_in_tweet(word, tweet):
   word = word.lower()
