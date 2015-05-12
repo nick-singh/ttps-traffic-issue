@@ -5,9 +5,9 @@
 	.controller('HomeCtrl',function ($scope, Factories, getTopHashtagAssociation, getTopHashtagsByTime, getTopSentimentByTime){
 		// var start = 1425668800,
 		// end = 1427673600;
-		var end = Date.now(),
+		var end = Math.round((new Date()).getTime() / 1000),
 		start = end - (7 * 86400);
-		
+
 		Factories.selectMenuItem('home');			
 
 		$scope.topAsso = [];		
