@@ -31,10 +31,20 @@
 			var topAssoPromise = getTopHashtagAssociation.get(start,end,10);
 
 			topAssoPromise.then(function(res){	
-				var data = res.data.hashtags;
+				var data = res.data.hashtags,
+				width = parseInt($("#viewportholder").css('width')) - 50;				
 				$("#viewportholder").html("");
-				$("#viewportholder").append($('<canvas id="viewport" width="1600" height="400"></canvas>'));
+				$("#viewportholder").append($('<canvas id="viewport" width="'+
+				width+'" height="800"></canvas>'));
 				arborGraph.draw($("#viewport"),data);
+				
+				window.onresize = function(e){
+					width = parseInt($("#viewportholder").css('width')) - 50;				
+					$("#viewportholder").html("");
+					$("#viewportholder").append($('<canvas id="viewport" width="'+
+					width+'" height="800"></canvas>'));
+					arborGraph.draw($("#viewport"),data);
+				};
 			});	
 
 			

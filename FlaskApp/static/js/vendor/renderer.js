@@ -136,8 +136,9 @@
 
             $(canvas).bind('mousemove', handler.dragged)
             $(window).bind('mouseup', handler.dropped)
-
+            // console.log(dragged.node.data.label);            
             return false
+
           },
           dragged:function(e){
             var old_nearest = nearest && nearest.node._id

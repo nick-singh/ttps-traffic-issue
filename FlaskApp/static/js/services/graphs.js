@@ -17,7 +17,7 @@
         edges[data.hashtag] = {};
 
         $.each(data.assoication, function(i, d){
-          nodes[i] = {'color':Graphs.colour(),'shape':'dot','label':i, 'radius' : d}; 
+          nodes[i] = {'color':Graphs.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
           edges[data.hashtag][i] = nodes[i];
         });        
       });
