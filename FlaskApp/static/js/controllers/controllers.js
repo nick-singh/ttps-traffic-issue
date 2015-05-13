@@ -31,12 +31,9 @@
 
 			topAssoPromise.then(function(res){	
 				var data = res.data.hashtags;
-				$("#viewport").springy({
-				    graph: Graphs.graph(data),
-				    nodeSelected: function(node){
-				      console.log('Node selected: ' + JSON.stringify(node.data));
-				    }
-				});
+				$("#viewportholder").html("");
+				$("#viewportholder").append($('<canvas id="viewport" width="1600" height="400"></canvas>'));
+				arborGraph.draw($("#viewport"),data);
 			});	
 
 			

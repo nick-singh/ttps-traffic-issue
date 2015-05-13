@@ -1,5 +1,40 @@
 (function($){
 
+
+  window.arborGraph = {
+
+    draw : function(id, obj){
+
+      var sys = arbor.ParticleSystem(10000, 400,1);
+      sys.parameters({gravity:true});
+      sys.renderer = Renderer(id);      
+      var nodes = {},
+      edges = {};
+
+      $.each(obj, function(index, data){  
+
+        nodes[data.hashtag] = {'color':Graphs.colour(),'shape':'dot','label':data.hashtag}; 
+        edges[data.hashtag] = {};
+
+        $.each(data.assoication, function(i, d){
+          nodes[i] = {'color':Graphs.colour(),'shape':'dot','label':i, 'radius' : d}; 
+          edges[data.hashtag][i] = nodes[i];
+        });        
+      });
+      var graphData = {
+        nodes : nodes,
+        edges : edges
+      };
+      sys.graft(graphData);
+    },
+
+    colour : function(){
+      return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+    }        
+  };
+
+
+
   window.Graphs = {
     
     graph : function(obj){
