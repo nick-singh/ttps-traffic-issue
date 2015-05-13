@@ -10,18 +10,19 @@
 
 		$scope.weeks = [];
 		var numWeeks = getNumberWeeks.get();
-		numWeeks.then(function(data){			
+		numWeeks.then(function(data){	
+			
 			$scope.weeks = data.data.weeks;			
 			$scope.week = $scope.weeks[0].unix;
-			var start = parseInt($scope.week),
-			end = start + (7 * 86400);
+			var end = parseInt($scope.week),
+			start = end - (7 * 86400);
 			init(start, end);
 		});				
 
 		$scope.change = function(){
 			// console.log($scope.week);
-			var start = parseInt($scope.week),
-			end = start + (7 * 86400);
+			var end = parseInt($scope.week),
+			start = end - (7 * 86400);
 			init(start, end);
 		};
 

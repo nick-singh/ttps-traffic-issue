@@ -23,13 +23,14 @@ def number_of_weeks():
 	end = time.time()
 	start = conn.zrangebyscore('tweetTime:','-inf','+inf',0,1,True)[0][1]
 	week_start = []
-	while start < (end - ONE_WEEK_IN_SECONDS):
+	while start < end:
 		temp = {
 			"unix":start, 
 			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
 		}
 		week_start.append(temp)
 		start += ONE_WEEK_IN_SECONDS
+	week_start.pop(0)
 	return week_start[::-1]
 
 def term_in_tweet(word, tweet):
