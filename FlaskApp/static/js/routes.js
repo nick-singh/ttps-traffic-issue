@@ -28,11 +28,11 @@
 				templateUrl : 'partials/realtime.html'
 			})
 			
-			.when('/search',
-			{
-				controller : 'SearchCtrl',
-				templateUrl : 'partials/search.html'
-			})
+			// .when('/search',
+			// {
+			// 	controller : 'SearchCtrl',
+			// 	templateUrl : 'partials/search.html'
+			// })
 
 			.when('/about',
 			{

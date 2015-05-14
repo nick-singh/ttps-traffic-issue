@@ -14,6 +14,14 @@ from flask.ext.httpauth import HTTPBasicAuth
 def root():
     return FlaskApp.send_static_file('index.html')
 
+@FlaskApp.route('/get/hashtag/list', methods=["GET"])
+def get_hashtag_list():
+	hahstag_list = redis_manager.get_hashtag_list()
+	if hahstag_list is not None:
+		return jsonify({"hashtags":hahstag_list}), 200
+	else:
+		return jsonify({"hashtags":{}}), 404
+
 
 @FlaskApp.route('/get/number/weeks', methods=["GET"])
 def get_number_of_weeks():

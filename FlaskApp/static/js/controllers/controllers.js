@@ -37,7 +37,7 @@
 				$("#viewportholder").append($('<canvas id="viewport" width="'+
 				width+'" height="800"></canvas>'));
 				arborGraph.draw($("#viewport"),data);
-				
+
 				window.onresize = function(e){
 					width = parseInt($("#viewportholder").css('width')) - 50;				
 					$("#viewportholder").html("");
@@ -70,12 +70,16 @@
 				
 	})
 
-	.controller('TweetDetailsCtrl',function($scope, Factories){
+	.controller('TweetDetailsCtrl',function($scope, Factories, getHashList){
 
 		init();			
 		
 		function init(){
-			Factories.selectMenuItem('tweetsdetails');			
+			Factories.selectMenuItem('tweetsdetails');	
+			var hashlist = getHashList.get();
+			hashlist.then(function(res){
+				$scope.hashList = res.data.hashtags;
+			});	
 		}
 		console.log('TweetDetailsCtrl');
 

@@ -4,17 +4,30 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Dashboard <small>Statistics Overview</small>
+                Search <small>Hashtag List</small>
             </h1>
             <ol class="breadcrumb">
                 <li class="active">
-                    <i class="fa fa-dashboard"></i> Dashboard
+                    <i class="fa fa-dashboard"></i> Hashtags
+                    <form class="form-inline">                      
+                      <div class="form-group">                        
+                        <input type="text" class="form-control" ng-model = "search.word" placeholder="Search">
+                      </div>                      
+                    </form>
                 </li>
             </ol>
         </div>
     </div>
     <!-- /.row -->
-    <div class="row" id="content">                    
-
+    <div class="row" id="content">   
+        <div class="col-lg-12">
+            <div class="row" >
+                <div ng-repeat="hash in hashList | filter:search.word | orderBy:'hash'" class="col-lg-3 col-xs-6 col-md-4"> 
+                    <a href="#/tweetDetails">
+                        #{{hash}}
+                    </a>
+                </div>
+            </div>
+        </div>                         
     </div>               
 </div>

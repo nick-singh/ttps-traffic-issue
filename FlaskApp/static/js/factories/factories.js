@@ -72,6 +72,20 @@
 		return deffered;
 	})
 
+
+	.service('getHashList', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(){			
+			return $http.get('/get/hashtag/list')
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
 	.factory('Factories',function($http){
 
 		var factory = {};

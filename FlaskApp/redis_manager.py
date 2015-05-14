@@ -18,6 +18,16 @@ ONE_DAY_IN_SECONDS = 86400
 # 	return weeks.count()
 
 
+def get_hashtag_list():
+	conn = Redis()
+	hash_list = conn.keys('hashtags:*')
+	hash_dict = []
+	for hashtag in hash_list:
+		h = hashtag.split(":")
+		hash_dict.append(h[1])		
+	return sorted(hash_dict)
+
+
 def number_of_weeks():
 	conn = Redis()	
 	end = time.time()
