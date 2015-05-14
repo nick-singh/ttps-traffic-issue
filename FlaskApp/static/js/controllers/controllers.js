@@ -70,10 +70,11 @@
 				
 	})
 
-	.controller('TweetDetailsCtrl',function($scope, Factories, getHashList){
+	.controller('HashDetailsCtrl',function($scope, Factories, getHashList){
 
-		init();			
-		
+		$scope.alpha = "abcdefghijklmnopqrstuvwxyz".split("");
+		$scope.firstletterOfHash = "";
+		init();					
 		function init(){
 			Factories.selectMenuItem('tweetsdetails');	
 			var hashlist = getHashList.get();
@@ -81,7 +82,24 @@
 				$scope.hashList = res.data.hashtags;
 			});	
 		}
-		console.log('TweetDetailsCtrl');
+
+		$scope.refreshHashtags = function(){
+			$scope.firstletterOfHash = "";
+			$scope.search.word = "";
+		};
+
+		$scope.searchByFirstLetter = function(){			
+			$scope.firstletterOfHash = this.letter;
+			console.log($scope.firstletterOfHash);
+		};
+
+		$scope.criteriaMatch = function( firstletterOfHash ) {
+			return function( item ) {
+				if(firstletterOfHash === "") return true;
+				return item[0] === firstletterOfHash;
+			};
+		};
+		console.log('HashDetailsCtrl');
 
 	})
 
@@ -98,15 +116,64 @@
 	})
 
 
-	.controller('SearchCtrl',function($scope, Factories){
+	.controller('HashtagCtrl',function($scope, $routeParams, getHashtagAssociation,
+										Factories, trackHashtagFreq, getNumberWeeks,
+										trackHashtagSentiment, getTweetTextByTime){
 
-		init();			
+		$scope.param = $routeParams.tag;
+		$scope.numWeeks = [];
+
+		var numWeeks = getNumberWeeks.get();
+		numWeeks.then(function(data){	
+			
+			$scope.weeks = data.data.weeks;			
+			$scope.week = $scope.weeks[0].unix;
+			var end = parseInt($scope.week),
+			start = end - (7 * 86400);	
+			init(start, end);		
+		});				
+
+		$scope.change = function(){
+			// console.log($scope.week);
+			var end = parseInt($scope.week),
+			start = end - (7 * 86400);	
+			init(start, end);
+		};
+			
 		
-		function init(){
-			Factories.selectMenuItem('search');			
-		}
+		function init(start, end){
+			Factories.selectMenuItem('tweetsdetails');
 
-		console.log('SearchCtrl');
+			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
+
+			hashAssoPromise.then(function(res){	
+				var data = res.data.hashtags;					
+				console.log(data);
+			});	
+
+			var hashFreqPromise = trackHashtagFreq.get($scope.param);
+
+			hashFreqPromise.then(function(res){	
+				var data = res.data.hashtags;					
+				console.log(data);
+			});	
+
+
+			var sentimentPromise = trackHashtagSentiment.get($scope.param);
+
+			sentimentPromise.then(function(res){	
+				var data = res.data.sentiment;					
+				console.log(data);
+			});	
+
+
+			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
+
+			tweetTextPromise.then(function(res){	
+				var data = res.data.tweets;					
+				console.log(data);
+			});					
+		}		
 
 	})
 

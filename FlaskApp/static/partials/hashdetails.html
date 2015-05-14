@@ -1,0 +1,67 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Search <small>Hashtag List</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> Hashtags                    
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row" id="content">
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="row hash-search-menu">
+                <div class="col-lg-12"> 
+                    <div class="row">
+                        <div class="col-md-2">
+                            <legend>Search Hashtags</legend>
+                        </div>
+                        <div class="col-md-2">
+                            <form class="form-inline">                      
+                              <div class="form-group">                        
+                                <input type="text" class="form-control" ng-model = "search.word" placeholder="Search">
+                              </div>                      
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-default" ng-click="refreshHashtags()">Refresh</button>
+                        </div>
+                    </div>                       
+                    <div class="row">
+                        <div class="col-md-2">
+                            <legend>Search By First Letter</legend>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="btn-toolbar" role="toolbar" aria-label="First Letter of Hashtags">
+
+                                <div class="btn-group" role="group" aria-label="Letters">
+
+                                    <input style="display:none" type = "text" ng-model="firstletterOfHash"/>
+                                    <button type="button" class="btn btn-default"  
+                                        ng-repeat = "letter in alpha" ng-click="searchByFirstLetter()">
+                                        {{letter}}
+                                    </button>
+
+                                </div>    
+                            </div>
+                        </div>                                        
+                    </div>                
+                </div>
+            </div> 
+        </div>
+        <div class="row" >
+            <div 
+                ng-repeat="hash in hashList | filter:search.word | filter:criteriaMatch(firstletterOfHash)| orderBy:'hash'" class="col-lg-3 col-xs-6 col-md-4"> 
+                <a href="#/hashtag/{{ hash }}">
+                    #{{hash}}
+                </a>
+            </div>
+        </div>
+    </div>                         
+</div>              

@@ -86,6 +86,59 @@
 		return deffered;
 	})
 
+	.service('trackHashtagFreq', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(hashtag){			
+			return $http.get('/get/hashtag/freq/preformance/'+hashtag)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
+
+	.service('trackHashtagSentiment', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(hashtag){			
+			return $http.get('/get/hashtag/sentiment/preformance/'+hashtag)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
+	.service('getTweetTextByTime', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(start, end, hashtag){			
+			return $http.get('/get/tweet/text/by/time/'+start+'/'+end+'/'+hashtag)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
+	.service('getHashtagAssociation', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(start, end, hashtag){			
+			return $http.get('/get/hashtag/association/by/time/'+start+'/'+end+'/'+hashtag)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
 	.factory('Factories',function($http){
 
 		var factory = {};
@@ -96,87 +149,5 @@
 	            $('.' + menuItem).addClass('active');
 	        }        
 		};
-
-
-		factory.getHashtagTweetsCountByTime = function(start, end, hashtag){
-
-			$http.get('/get/hashtags/tweets/count/by/time/'+start+'/'+end+'/'+hashtag).
-			success(function(res){
-				console.log(res);
-				return res;
-			}).
-			error(function(res){
-				console.log(res);
-				return {};
-			});
-
-		};
-
-
-		factory.getFreqPerformance = function(hash){			
-			$http.get('/get/hashtag/freq/preformance/'+hash).
-			success(function(res) {
-				console.log(JSON.stringify(res));
-				return res;
-			}).
-			error(function(res) {
-				console.log(res);
-				return {};
-			});
-		};
-
-
-		factory.getSentimentByTime = function(start, end, hash){
-
-			$http.get('/get/sentiment/by/time/'+start+'/'+end+'/'+hashtag).
-			success(function(res){
-				console.log(res);
-				return res;
-			}).
-			error(function(res){
-				console.log(res);
-				return {};
-			});
-		};
-
-
-		factory.getSentimentPerformance = function(hash){			
-			$http.get('/get/hashtag/sentiment/preformance/'+hash).
-			success(function(res) {
-				console.log(res);
-				return res;
-			}).
-			error(function(res) {
-				console.log(res);
-				return {};
-			});
-		};
-
-
-		factory.getTweetTextByTime = function(start, end, hashtag){
-			$http.get('/get/tweet/text/by/time/'+start+'/'+end+'/'+hashtag).
-			success(function(res) {
-				console.log(res);
-				return res;
-			}).
-			error(function(res) {
-				console.log(res);
-				return {};
-			});
-		};
-
-
-		factory.getHashtagAssociation = function(start, end, hashtag){
-			$http.get('/get/hashtag/association/by/time/'+start+'/'+end+'/'+hashtag).
-			success(function(res) {
-				console.log(res);
-				return res;
-			}).
-			error(function(res) {
-				console.log(res);
-				return {};
-			});
-		};
-
 		return factory;
 	});

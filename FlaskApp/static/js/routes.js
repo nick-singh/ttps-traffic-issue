@@ -6,7 +6,23 @@
 		'caribTrack.factories',
 		'ngRoute'
 
-	]).config(['$routeProvider',
+	])
+
+	.filter('startsWithLetter', function () {
+	  return function (items, letter) {
+	    var filtered = [];
+        var letterMatch = new RegExp(letter, 'i');
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (letterMatch.test(item.name.substring(0, 1))) {
+                filtered.push(item);
+            }
+        }
+        return filtered;
+	  };
+	})
+
+	.config(['$routeProvider',
 		function($routeProvider){
 
 		$routeProvider
@@ -16,10 +32,10 @@
 				templateUrl : 'partials/home.html'
 			})
 			
-			.when('/tweetDetails',
+			.when('/hashDetails',
 			{
-				controller : 'TweetDetailsCtrl',
-				templateUrl : 'partials/tweetdetails.html'
+				controller : 'HashDetailsCtrl',
+				templateUrl : 'partials/hashdetails.html'
 			})
 			
 			.when('/realtime',
@@ -28,11 +44,11 @@
 				templateUrl : 'partials/realtime.html'
 			})
 			
-			// .when('/search',
-			// {
-			// 	controller : 'SearchCtrl',
-			// 	templateUrl : 'partials/search.html'
-			// })
+			.when('/hashtag/:tag',
+			{
+				controller : 'HashtagCtrl',
+				templateUrl : 'partials/hashtag.html'
+			})
 
 			.when('/about',
 			{
