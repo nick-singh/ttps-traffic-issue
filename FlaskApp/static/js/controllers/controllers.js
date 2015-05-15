@@ -143,12 +143,25 @@
 		
 		function init(start, end){
 			Factories.selectMenuItem('tweetsdetails');
-
+			// 1414668800,1427673600
 			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
 
 			hashAssoPromise.then(function(res){	
-				var data = res.data.hashtags;					
-				console.log(data);
+				var data = res.data.hashtags,
+				width = parseInt($("#assoGraph").css('width')) - 50;
+
+				$("#assoGraph").html("");
+				$("#assoGraph").append($('<canvas id="viewport" width="'+
+				width+'" height="400"></canvas>'));
+				arborGraph.draw($("#viewport"),data);
+
+				window.onresize = function(e){
+					width = parseInt($("#assoGraph").css('width')) - 50;				
+					$("#assoGraph").html("");
+					$("#assoGraph").append($('<canvas id="viewport" width="'+
+					width+'" height="400"></canvas>'));
+					arborGraph.draw($("#viewport"),data);
+				};
 			});	
 
 			var hashFreqPromise = trackHashtagFreq.get($scope.param);
@@ -166,7 +179,7 @@
 				console.log(data);
 			});	
 
-
+			// 1414668800,1427673600
 			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
 
 			tweetTextPromise.then(function(res){	
