@@ -131,10 +131,19 @@
 			var end = parseInt($scope.week),
 			start = end - (7 * 86400);	
 			init(start, end);		
-		});				
+		});		
 
-		$scope.change = function(){
-			// console.log($scope.week);
+		var point = {
+			"point": {
+                  events: {
+                      click: function() {                          
+                        console.log(this);
+                      }
+                  }
+              }
+        }; 		
+
+		$scope.change = function(){			
 			var end = parseInt($scope.week),
 			start = end - (7 * 86400);	
 			init(start, end);
@@ -144,8 +153,8 @@
 		function init(start, end){
 			Factories.selectMenuItem('tweetsdetails');
 			// 1414668800,1427673600
-			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
-			// var hashAssoPromise = getHashtagAssociation.get(414668800,1427673600, $scope.param);
+			// var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
+			var hashAssoPromise = getHashtagAssociation.get(1414668800,1427673600, $scope.param);
 
 			hashAssoPromise.then(function(res){	
 				var data = res.data.hashtags,
@@ -163,32 +172,38 @@
 					width+'" height="400"></canvas>'));
 					arborGraph.draw($("#viewport"),data);
 				};
-			});	
-
-			var hashFreqPromise = trackHashtagFreq.get($scope.param);
-
-			hashFreqPromise.then(function(res){	
-				var data = res.data.hashtags;					
-				console.log(data);
-			});	
-
-
-			var sentimentPromise = trackHashtagSentiment.get($scope.param);
-
-			sentimentPromise.then(function(res){	
-				var data = res.data.sentiment;					
-				console.log(data);
-			});	
+			});				
 
 			// 1414668800,1427673600
-			// var tweetTextPromise = getTweetTextByTime.get(1414668800,1427673600, $scope.param);
-			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
+			var tweetTextPromise = getTweetTextByTime.get(1414668800,1427673600, $scope.param);
+			// var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
 
 			tweetTextPromise.then(function(res){	
 				var data = res.data.tweets;					
 				console.log(data);
 			});					
-		}		
+		}	
+
+	
+		var hashFreqPromise = trackHashtagFreq.get($scope.param);
+
+		hashFreqPromise.then(function(res){	
+			var data = res.data.hashtags;					
+			$('#freqChart').empty();
+			data[0].data[0]['point'] = point.point;			
+			Charts.genSplineChart('#freqChart','Frequency of', $scope.param, data[0].date, "Frequency", data[0].data);
+		});	
+
+
+		var sentimentPromise = trackHashtagSentiment.get($scope.param);
+
+		sentimentPromise.then(function(res){	
+			var data = res.data.sentiment;					
+			$('#sentiChart').empty();
+			data[0].data[0]['point'] = point.point;
+			data[0].data[1]['point'] = point.point;
+			Charts.genSplineChart('#sentiChart','Sentiment of', $scope.param, data[0].date, "Sentiment", data[0].data);
+		});	
 
 	})
 

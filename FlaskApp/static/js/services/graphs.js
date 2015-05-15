@@ -13,26 +13,26 @@
       if(obj instanceof Array){
         $.each(obj, function(index, data){  
 
-          nodes[data.hashtag] = {'color':Graphs.colour(),'shape':'dot','label':data.hashtag}; 
+          nodes[data.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':data.hashtag}; 
           edges[data.hashtag] = {};
 
           $.each(data.assoication, function(i, d){
-            nodes[i] = {'color':Graphs.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
+            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
             edges[data.hashtag][i] = nodes[i];
           });        
         });  
 
       }else{
         if(Object.keys(obj.assoication).length === 0){
-          nodes[obj.hashtag] = {'color':Graphs.colour(),'shape':'dot','label':obj.hashtag}; 
-          nodes['No Related Hashtags Found'] = {'color':Graphs.colour(),'shape':'dot','label':'No Related Hashtags Found'}; 
+          nodes[obj.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':obj.hashtag}; 
+          nodes['No Related Hashtags Found'] = {'color':arborGraph.colour(),'shape':'dot','label':'No Related Hashtags Found'}; 
           edges[obj.hashtag] = {};
           edges[obj.hashtag]['No Related Hashtags Found'] = nodes['No Related Hashtags Found In Tweets'];
         }else{
           edges[obj.hashtag] = {};
 
           $.each(obj.assoication, function(i, d){
-            nodes[i] = {'color':Graphs.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
+            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
             edges[obj.hashtag][i] = nodes[i];
           });
         }        
@@ -48,31 +48,6 @@
     colour : function(){
       return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
     }        
-  };
-
-
-
-  window.Graphs = {
-    
-    graph : function(obj){
-      var g = new Springy.Graph();
-
-      $.each(obj, function(index, data){        
-        g.addNodes(data.hashtag);
-
-        $.each(data.assoication, function(i, d){
-          g.addNodes(i);          
-          g.addEdges([data.hashtag, i , {color: Graphs.colour(), label: d}])
-        });        
-      });
-
-      return g;
-
-    },
-
-    colour : function(){
-      return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
-    }
   };
 
 
@@ -215,6 +190,45 @@
               }
           }]
         });
+     },
+
+
+     genSplineChart : function(id, titleTx, subtitleTx, xAxisD, yAxis_text, seriesD){  
+        
+        $(id).highcharts({
+          chart: {
+              type: 'spline'
+          },
+          title: {
+              text: titleTx
+          },
+          subtitle: {
+              text: subtitleTx
+          },
+          xAxis: {
+              categories: xAxisD,
+              type: 'datetime',
+          },
+          yAxis: {
+              title: {
+                  text: yAxis_text
+              }
+          },
+          tooltip: {
+              crosshairs: true,
+              shared: true
+          },
+          plotOptions: {
+              spline: {
+                  marker: {
+                      radius: 4,
+                      lineColor: '#666666',
+                      lineWidth: 1
+                  }
+              }
+          },
+          series: seriesD
+      });
      }
   }
 
