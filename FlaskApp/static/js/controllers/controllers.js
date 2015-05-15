@@ -143,7 +143,7 @@
               }
         }; 		
 // 
-		// $scope.change = function(){			
+		$scope.change = function(){			
 			var end = parseInt($scope.week),
 			start = end - (7 * 86400);	
 			init(start, end);
