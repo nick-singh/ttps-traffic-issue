@@ -145,6 +145,7 @@
 			Factories.selectMenuItem('tweetsdetails');
 			// 1414668800,1427673600
 			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
+			// var hashAssoPromise = getHashtagAssociation.get(414668800,1427673600, $scope.param);
 
 			hashAssoPromise.then(function(res){	
 				var data = res.data.hashtags,
@@ -180,6 +181,7 @@
 			});	
 
 			// 1414668800,1427673600
+			// var tweetTextPromise = getTweetTextByTime.get(1414668800,1427673600, $scope.param);
 			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
 
 			tweetTextPromise.then(function(res){	
