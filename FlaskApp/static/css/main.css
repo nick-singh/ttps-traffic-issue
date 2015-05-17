@@ -3,6 +3,11 @@
 	min-height: 500px;
 }
 
+
+#viewport{
+	width: 100%;
+}
+
 .hash-search-menu{
 	margin-bottom: 10px;
 }

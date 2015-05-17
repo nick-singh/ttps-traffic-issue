@@ -13,26 +13,26 @@
       if(obj instanceof Array){
         $.each(obj, function(index, data){  
 
-          nodes[data.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':data.hashtag}; 
+          nodes[data.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':data.hashtag, "link":data.hashtag}; 
           edges[data.hashtag] = {};
 
           $.each(data.assoication, function(i, d){
-            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
+            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link': i}; 
             edges[data.hashtag][i] = nodes[i];
           });        
         });  
 
       }else{
         if(Object.keys(obj.assoication).length === 0){
-          nodes[obj.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':obj.hashtag}; 
-          nodes['No Related Hashtags Found'] = {'color':arborGraph.colour(),'shape':'dot','label':'No Related Hashtags Found'}; 
+          nodes[obj.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':obj.hashtag, 'link' :obj.hashtag}; 
+          nodes['No Related Hashtags Found'] = {'color':arborGraph.colour(),'shape':'dot','label':'No Related Hashtags Found', 'link' :'none'}; 
           edges[obj.hashtag] = {};
           edges[obj.hashtag]['No Related Hashtags Found'] = nodes['No Related Hashtags Found In Tweets'];
         }else{
           edges[obj.hashtag] = {};
 
           $.each(obj.assoication, function(i, d){
-            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link': 'http://google.com'}; 
+            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link' :i}; 
             edges[obj.hashtag][i] = nodes[i];
           });
         }        

@@ -20,8 +20,8 @@
 	.service('getTopHashtagAssociation', function($http){
 		var deffered = {};		
 
-		deffered.get = function(start, end, hashtag){			
-			return $http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+hashtag)
+		deffered.get = function(start, end, limit){			
+			return $http.get('/get/top/hashtags/association/by/time/'+start+'/'+end+'/'+limit)
 			.error(function(res){
 				console.log(res);
 			});
@@ -43,6 +43,20 @@
 		return deffered;
 	})
 
+
+	.service('getTopSentimentByTime', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(start, end, limit){			
+			return $http.get('/get/top/sentiment/by/time/'+start+'/'+end+'/'+limit)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
 	.service('test', function($http){
 
 		var testService = {};
@@ -56,20 +70,6 @@
 	    };
 
 	    return testService;
-	})
-
-
-	.service('getTopSentimentByTime', function($http, $q){
-		var deffered = {};		
-
-		deffered.get = function(start, end, limit){			
-			return $http.get('/get/top/sentiment/by/time/'+start+'/'+end+'/'+limit)
-
-			.error(function(res){
-				console.log(res);
-			});			
-		};
-		return deffered;
 	})
 
 

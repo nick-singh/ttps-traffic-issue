@@ -4,9 +4,23 @@
 
 	.controller('HomeCtrl',function ($scope, Factories, getNumberWeeks, 
 									getTopHashtagAssociation, getTopHashtagsByTime, 
-									getTopSentimentByTime, test){
+									getTopSentimentByTime){
 
-		Factories.selectMenuItem('home');			
+		Factories.selectMenuItem('home');
+		
+		$scope.finished = [0,0,0];
+
+		$scope.$on('LOAD',function(){$scope.loading=true});
+		
+		$scope.$on('UNLOAD',function(){
+			var temp = true;
+			$.each($scope.finished, function(i, d){
+				if(d === 0) temp = false;
+			});
+			console.log($scope.finished);
+			if(temp) $scope.loading = false;
+		});			
+		
 
 		$scope.weeks = [];
 		var numWeeks = getNumberWeeks.get();
@@ -27,19 +41,23 @@
 		};
 
 		function init(start, end){
-			
+			// $scope.$emit('LOAD');
+
 			var topAssoPromise = getTopHashtagAssociation.get(start,end,10);
 
 			topAssoPromise.then(function(res){	
+				$scope.finished[0] = 1;
 				var data = res.data.hashtags,
-				width = parseInt($("#viewportholder").css('width')) - 50;				
+				width = 750;
+				// width = parseInt($("#viewportholder").css('width')) - 50;				
 				$("#viewportholder").html("");
 				$("#viewportholder").append($('<canvas id="viewport" width="'+
 				width+'" height="800"></canvas>'));
 				arborGraph.draw($("#viewport"),data);
 
 				window.onresize = function(e){
-					width = parseInt($("#viewportholder").css('width')) - 50;				
+					width = 750;
+					// width = parseInt($("#viewportholder").css('width')) - 50;				
 					$("#viewportholder").html("");
 					$("#viewportholder").append($('<canvas id="viewport" width="'+
 					width+'" height="800"></canvas>'));
@@ -50,7 +68,8 @@
 			
 			var topHashPromise = getTopHashtagsByTime.get(start,end, 10);
 
-			topHashPromise.then(function(res){	
+			topHashPromise.then(function(res){
+				$scope.finished[1] = 1;	
 				var data = res.data.hashtags;					
 				$('#freqDist').empty();
 				Charts.genColChart('#freqDist','Trending Hashtags', 'in Trinidad and Tobago',data);
@@ -60,11 +79,13 @@
 			var topSentimentPromise = getTopSentimentByTime.get(start,end, 10);
 
 			topSentimentPromise.then(function(res){
+				$scope.finished[2] = 1;
 				var data = res.data.hashtags;				
 				$('#topSentiment').empty();
 				Charts.genBarChart('#topSentiment','Trending Hashtag Sentiment',
 									 'in Trinidad and Tobago',data.hashtags,{},
 									 data.positive, data.negative);
+				// $scope.$emit('UNLOAD');
 			});
 		}		
 				

@@ -131,12 +131,15 @@
             var pos = $(canvas).offset();
             _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
             selected = nearest = dragged = particleSystem.nearest(_mouseP);
-
+            
             if (dragged.node !== null) dragged.node.fixed = true
 
             $(canvas).bind('mousemove', handler.dragged)
             $(window).bind('mouseup', handler.dropped)
-            // console.log(dragged.node.data.label);            
+
+            if(dragged.node.data.link !== 'none'){
+              window.location.hash = "#/hashtag/"+dragged.node.data.link;
+            }            
             return false
 
           },
@@ -166,7 +169,7 @@
             return false
           }
         }
-        $(canvas).mousedown(handler.clicked);
+        $(canvas).mousedown(handler.clicked);        
 
       }
 
