@@ -3,11 +3,16 @@
 	min-height: 500px;
 }
 
-
 #viewport{
 	width: 100%;
 }
 
 .hash-search-menu{
 	margin-bottom: 10px;
+}
+
+.tweets-holder{
+	height: 250px;  
+	overflow-x: hidden;
+	overflow-y: scroll;
 }

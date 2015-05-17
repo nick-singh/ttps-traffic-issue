@@ -4,6 +4,7 @@
 	[
 		'caribTrack.controllers',
 		'caribTrack.factories',
+		'angularUtils.directives.dirPagination',
 		'ngRoute'
 
 	])

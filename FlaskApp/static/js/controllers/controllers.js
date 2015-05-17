@@ -137,7 +137,7 @@
 	})
 
 
-	.controller('HashtagCtrl',function($scope, $routeParams, getHashtagAssociation,
+	.controller('HashtagCtrl',function($scope, $routeParams, $sce, getHashtagAssociation,
 										Factories, trackHashtagFreq, getNumberWeeks,
 										trackHashtagSentiment, getTweetTextByTime){
 
@@ -163,7 +163,7 @@
                   }
               }
         }; 		
-// 
+
 		$scope.change = function(){			
 			var end = parseInt($scope.week),
 			start = end - (7 * 86400);	
@@ -173,7 +173,7 @@
 		
 		function init(start, end){
 			Factories.selectMenuItem('tweetsdetails');
-			// 1414668800,1427673600
+			
 			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
 			// var hashAssoPromise = getHashtagAssociation.get(1414668800,1427673600, $scope.param);
 
@@ -195,13 +195,21 @@
 				};
 			});				
 
-			// 1414668800,1427673600
+			
 			// var tweetTextPromise = getTweetTextByTime.get(1414668800,1427673600, $scope.param);
 			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
-
+			$scope.currentPage = 1;
+  			$scope.pageSize = 5;
+  			$scope.to_trusted = function(html_code) {
+			    return $sce.trustAsHtml(html_code);
+			}
 			tweetTextPromise.then(function(res){	
-				var data = res.data.tweets;					
-				console.log(data);
+				var data = res.data.tweets;
+				$.each(data, function(index, tweet){
+					tweet.text = tweet.text.parseURL().parseHashtag().parseUsername();
+					// console.log(tweet.sentiment);
+				});
+				$scope.tweets = data;								
 			});					
 		}	
 
