@@ -38,17 +38,21 @@
                             <legend>Search By First Letter</legend>
                         </div>
                         <div class="col-md-8">
-                            <div class="btn-toolbar" role="toolbar" aria-label="First Letter of Hashtags">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-xs-12">
+                                     <div class="btn-toolbar" role="toolbar" aria-label="First Letter of Hashtags">
 
-                                <div class="btn-group" role="group" aria-label="Letters">
+                                        <div class="btn-group" role="group" aria-label="Letters">
 
-                                    <input style="display:none" type = "text" ng-model="firstletterOfHash"/>
-                                    <button type="button" class="btn btn-default"  
-                                        ng-repeat = "letter in alpha" ng-click="searchByFirstLetter()">
-                                        {{letter}}
-                                    </button>
+                                            <input style="display:none" type = "text" ng-model="firstletterOfHash"/>
+                                            <button type="button" class="btn btn-default"  
+                                                ng-repeat = "letter in alpha" ng-click="searchByFirstLetter()">
+                                                {{letter}}
+                                            </button>
 
-                                </div>    
+                                        </div>    
+                                    </div>
+                                </div>                               
                             </div>
                         </div>                                        
                     </div>                
