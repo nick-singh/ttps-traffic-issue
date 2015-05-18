@@ -179,18 +179,18 @@
 
 			hashAssoPromise.then(function(res){	
 				var data = res.data.hashtags,
-				width = 400;
+				width = 750;
 
 				$("#assoGraph").html("");
 				$("#assoGraph").append($('<canvas id="viewport" width="'+
-				width+'" height="200"></canvas>'));
+				width+'" height="450"></canvas>'));
 				arborGraph.draw($("#viewport"),data);
 
 				window.onresize = function(e){
-					width = 400;
+					width = 750;
 					$("#assoGraph").html("");
 					$("#assoGraph").append($('<canvas id="viewport" width="'+
-					width+'" height="200"></canvas>'));
+					width+'" height="450"></canvas>'));
 					arborGraph.draw($("#viewport"),data);
 				};
 			});				

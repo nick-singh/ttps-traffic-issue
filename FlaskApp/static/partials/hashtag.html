@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Hashtag:{{param}} <small>Statistics Overview</small>
+                <a href="#/hashDetails">Hashtag Details </a>:{{param}} <small>Statistics Overview</small>
             </h1>
             <ol class="breadcrumb">
                 <li class="active">
@@ -43,7 +43,9 @@
                         </div>
                     </div> 
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-xs-12" id="assoGraph"></div>
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div id="assoGraph" class="row"></div>                    
+                        </div>
                     </div>                   
                     <div class="row" style="margin-top:10px"  ng-show="haveTweets">
                         <div class="col-lg-12 col-md-12 col-xs-12">
