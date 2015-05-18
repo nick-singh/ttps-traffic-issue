@@ -1,10 +1,14 @@
 
-#content {
-	min-height: 500px;
+#page-wrapper {
+	min-height: 550px;
 }
 
 #viewport{
 	width: 100%;
+}
+
+.charts{
+	/*width: 100%;	*/
 }
 
 .hash-search-menu{

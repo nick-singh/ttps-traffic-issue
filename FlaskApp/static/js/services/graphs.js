@@ -25,9 +25,9 @@
       }else{
         if(Object.keys(obj.assoication).length === 0){
           nodes[obj.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':obj.hashtag, 'link' :obj.hashtag}; 
-          nodes['No Related Hashtags Found'] = {'color':arborGraph.colour(),'shape':'dot','label':'No Related Hashtags Found', 'link' :'none'}; 
+          nodes['No Related Hashtags'] = {'color':arborGraph.colour(),'shape':'dot','label':'No Related Hashtags', 'link' :'none'}; 
           edges[obj.hashtag] = {};
-          edges[obj.hashtag]['No Related Hashtags Found'] = nodes['No Related Hashtags Found In Tweets'];
+          edges[obj.hashtag]['No Related Hashtags'] = nodes['No Related Hashtags'];
         }else{          
           edges[obj.hashtag] = {};
           nodes[obj.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':obj.hashtag, 'link' :obj.hashtag}; 

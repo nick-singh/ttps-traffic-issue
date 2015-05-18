@@ -14,15 +14,19 @@
         </div>
     </div>
     <!-- /.row -->
-    <div class="row" id="content">                    
+    <div class="row" id="content" ng-hide="loading">                    
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-xs-12" id="freqChart"></div>
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div id="freqChart" class="charts"></div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-xs-12" id="sentiChart"></div>
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div id="sentiChart" class="charts"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -37,13 +41,13 @@
                               </div>        
                             </form>
                         </div>
-                    </div>                    
-                    <div class="row" style="margin-top:10px">
+                    </div> 
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12" id="assoGraph"></div>
+                    </div>                   
+                    <div class="row" style="margin-top:10px"  ng-show="haveTweets">
                         <div class="col-lg-12 col-md-12 col-xs-12">
                              <div class="row">
-                                <!-- <div class="col-xs-4">
-                                  <h3>Page: {{ currentPage }}</h3>
-                                </div> -->
                                 <div class="col-xs-4">
                                     <ul class="list-group">                                    
                                         <li class="list-group-item list-group-item-info">Positive Tweets</li>                                        
@@ -80,11 +84,24 @@
                             </div>
                         </div>
                     </div>  
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-xs-12" id="assoGraph"></div>
-                    </div>                  
+                    <div class="row" ng-show="!haveTweets">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body tweets-holder">
+                                    <div>
+                                        <h3>No Tweets Found for this week</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                    
                 </div>
             </div>            
         </div>
-    </div>               
+    </div> 
+    <div class="row" ng-show="loading">
+        <div class="col-lg-offset-5">
+            <img src="img/loader.gif">
+        </div>
+    </div>              
 </div>

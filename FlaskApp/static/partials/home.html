@@ -14,7 +14,7 @@
         </div>
     </div>
     <!-- /.row -->
-    <div class="row" id="content" ng-show="!loading"> 
+    <div class="row" id="content" ng-hide="loading"> 
         <div class="col-lg-12 col-xs-12 col-md-12">
             <div class="row">
                 <div class="col-md-offset-4 col-lg-8 col-xs-12 col-md-12">
@@ -31,13 +31,19 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
-                        <div class="col-xs-12 col-md-12 col-lg-12" id="freqDist"></div> 
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                            <div  id="freqDist" class="charts"></div>
+                        </div> 
                     </div> 
                     <div class="row">
-                        <div class="col-xs-12 col-md-12 col-lg-12" id="topSentiment"></div>
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                            <div id="topSentiment" class="charts"></div>
+                        </div>
                     </div>                                         
                 </div>
-                <div class="col-lg-6" id="viewportholder"></div>    
+                <div class="col-lg-6">
+                    <div id="viewportholder" class="row"></div>                    
+                </div>    
             </div>  
         </div>
     </div>

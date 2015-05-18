@@ -2,24 +2,17 @@
 
 	angular.module('caribTrack.controllers',[])
 
-	.controller('HomeCtrl',function ($scope, Factories, getNumberWeeks, 
+	.controller('HomeCtrl',function ($scope, $q, Factories, getNumberWeeks, 
 									getTopHashtagAssociation, getTopHashtagsByTime, 
 									getTopSentimentByTime){
 
-		Factories.selectMenuItem('home');
-		
-		$scope.finished = [0,0,0];
+		Factories.selectMenuItem('home');			
+
+		// $scope.finished = [0,0,0];
 
 		$scope.$on('LOAD',function(){$scope.loading=true});
 		
-		$scope.$on('UNLOAD',function(){
-			var temp = true;
-			$.each($scope.finished, function(i, d){
-				if(d === 0) temp = false;
-			});
-			console.log($scope.finished);
-			if(temp) $scope.loading = false;
-		});			
+		$scope.$on('UNLOAD',function(){$scope.loading=false});			
 		
 
 		$scope.weeks = [];
@@ -41,66 +34,67 @@
 		};
 
 		function init(start, end){
-			// $scope.$emit('LOAD');
-
+			$scope.$emit('LOAD');
 			var topAssoPromise = getTopHashtagAssociation.get(start,end,10);
+			var topHashPromise = getTopHashtagsByTime.get(start,end, 10);
+			var topSentimentPromise = getTopSentimentByTime.get(start,end, 10);
 
-			topAssoPromise.then(function(res){	
-				$scope.finished[0] = 1;
-				var data = res.data.hashtags,
-				width = 750;
-				// width = parseInt($("#viewportholder").css('width')) - 50;				
+			$q.all([topAssoPromise, topHashPromise, topSentimentPromise]).then(function(allData){
+				$scope.$emit('UNLOAD');
+				hashAsso(allData[0].data.hashtags);
+				topHash(allData[1].data.hashtags);
+				topSentiment(allData[2].data.hashtags);				
+			});
+		}
+
+		function hashAsso(data){
+			var width = 750;							
+			$("#viewportholder").html("");
+			$("#viewportholder").append($('<canvas id="viewport" width="'+
+			width+'" height="800"></canvas>'));
+			arborGraph.draw($("#viewport"),data);
+
+			window.onresize = function(e){
+				width = 750;							
 				$("#viewportholder").html("");
 				$("#viewportholder").append($('<canvas id="viewport" width="'+
 				width+'" height="800"></canvas>'));
 				arborGraph.draw($("#viewport"),data);
+			};
+		}
 
-				window.onresize = function(e){
-					width = 750;
-					// width = parseInt($("#viewportholder").css('width')) - 50;				
-					$("#viewportholder").html("");
-					$("#viewportholder").append($('<canvas id="viewport" width="'+
-					width+'" height="800"></canvas>'));
-					arborGraph.draw($("#viewport"),data);
-				};
-			});	
+		function topHash(data){	
+			console.log(data);
+			$('#freqDist').empty();
+			Charts.genColChart('#freqDist','Trending Hashtags', 'in Trinidad and Tobago',data);
+		}	
 
-			
-			var topHashPromise = getTopHashtagsByTime.get(start,end, 10);
-
-			topHashPromise.then(function(res){
-				$scope.finished[1] = 1;	
-				var data = res.data.hashtags;					
-				$('#freqDist').empty();
-				Charts.genColChart('#freqDist','Trending Hashtags', 'in Trinidad and Tobago',data);
-			});	
-
-			
-			var topSentimentPromise = getTopSentimentByTime.get(start,end, 10);
-
-			topSentimentPromise.then(function(res){
-				$scope.finished[2] = 1;
-				var data = res.data.hashtags;				
-				$('#topSentiment').empty();
-				Charts.genBarChart('#topSentiment','Trending Hashtag Sentiment',
-									 'in Trinidad and Tobago',data.hashtags,{},
-									 data.positive, data.negative);
-				// $scope.$emit('UNLOAD');
-			});
-		}		
+		function topSentiment(data){
+			console.log(data);	
+			$('#topSentiment').empty();
+			Charts.genBarChart('#topSentiment','Trending Hashtag Sentiment',
+								 'in Trinidad and Tobago',data.hashtags,{},
+								 data.positive, data.negative);		
+		}
 				
 	})
 
 	.controller('HashDetailsCtrl',function($scope, Factories, getHashList){
 
+		$scope.$on('LOAD',function(){$scope.loading=true});
+		
+		$scope.$on('UNLOAD',function(){$scope.loading=false});	
+
 		$scope.alpha = "abcdefghijklmnopqrstuvwxyz".split("");
 		$scope.firstletterOfHash = "";
 		init();					
 		function init(){
+			$scope.$emit('LOAD');
 			Factories.selectMenuItem('tweetsdetails');	
 			var hashlist = getHashList.get();
 			hashlist.then(function(res){
 				$scope.hashList = res.data.hashtags;
+				$scope.$emit('UNLOAD');
 			});	
 		}
 
@@ -119,18 +113,28 @@
 				if(firstletterOfHash === "") return true;
 				return item[0] === firstletterOfHash;
 			};
-		};
-		console.log('HashDetailsCtrl');
+		};		
 
 	})
 
 
-	.controller('HashtagCtrl',function($scope, $routeParams, $sce, getHashtagAssociation,
+	.controller('HashtagCtrl',function($scope, $routeParams, $sce, $q, getHashtagAssociation,
 										Factories, trackHashtagFreq, getHashtagDates,
 										trackHashtagSentiment, getTweetTextByTime){
 
 		$scope.param = $routeParams.tag;
 		$scope.hashDates = [];
+
+		$scope.$on('LOAD',function(){$scope.loading=true});
+		
+		$scope.$on('UNLOAD',function(){$scope.loading=false});
+
+
+		$scope.$on('Tweets',function(){$scope.haveTweets=true});
+		
+		$scope.$on('NoTweets',function(){$scope.haveTweets=false});	
+
+		Factories.selectMenuItem('tweetsdetails');
 
 		var hashDates = getHashtagDates.get($scope.param);
 		hashDates.then(function(data){				
@@ -138,7 +142,8 @@
 			$scope.week = $scope.weeks[0].unix;
 			var end = parseInt($scope.week),
 			start = end - (7 * 86400);	
-			init(start, end);		
+			init(start, end);
+			charts();		
 		});		
 
 		var point = {
@@ -168,25 +173,24 @@
 		};
 			
 		
-		function init(start, end){
-			Factories.selectMenuItem('tweetsdetails');
+		function init(start, end){			
 			
 			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);			
 
 			hashAssoPromise.then(function(res){	
 				var data = res.data.hashtags,
-				width = parseInt($("#assoGraph").css('width')) - 50;
+				width = 400;
 
 				$("#assoGraph").html("");
 				$("#assoGraph").append($('<canvas id="viewport" width="'+
-				width+'" height="400"></canvas>'));
+				width+'" height="200"></canvas>'));
 				arborGraph.draw($("#viewport"),data);
 
 				window.onresize = function(e){
-					width = parseInt($("#assoGraph").css('width')) - 50;				
+					width = 400;
 					$("#assoGraph").html("");
 					$("#assoGraph").append($('<canvas id="viewport" width="'+
-					width+'" height="400"></canvas>'));
+					width+'" height="200"></canvas>'));
 					arborGraph.draw($("#viewport"),data);
 				};
 			});				
@@ -200,35 +204,51 @@
 			}
 			tweetTextPromise.then(function(res){	
 				var data = res.data.tweets;
-				$.each(data, function(index, tweet){
-					tweet.text = tweet.text.parseURL().parseHashtag().parseUsername();
-					tweet.sentiment = ((tweet.sentiment > 0) ? "list-group-item-info": "list-group-item-danger");                      					
-				});
-				$scope.tweets = data;								
+				console.log(data.length);
+				if(data.length > 0){
+					$scope.$emit("Tweets");
+					$.each(data, function(index, tweet){
+						tweet.text = tweet.text.parseURL().parseHashtag().parseUsername();
+						tweet.sentiment = ((tweet.sentiment > 0) ? "list-group-item-info": "list-group-item-danger");                      					
+					});
+					$scope.tweets = data;
+				}else{
+					$scope.$emit("NoTweets");
+				}					
 			});					
 		}	
 
-	
-		var hashFreqPromise = trackHashtagFreq.get($scope.param);
 
-		hashFreqPromise.then(function(res){	
-			var data = res.data.hashtags;					
+		function charts(){
+			$scope.$emit('LOAD');
+			var hashFreqPromise = trackHashtagFreq.get($scope.param);
+			var sentimentPromise = trackHashtagSentiment.get($scope.param);
+
+			$q.all([hashFreqPromise, sentimentPromise]).then(function(allData){
+				$scope.$emit('UNLOAD');
+				hashFreq(allData[0].data.hashtags);
+				hashSentiment(allData[1].data.sentiment);
+			});
+		}
+	
+		
+
+		function hashFreq(data){
 			$('#freqChart').empty();
 			data[0].data[0]['point'] = point.point;			
 			Charts.genSplineChart('#freqChart','Frequency of', $scope.param, data[0].date, "Frequency", data[0].data);
-		});	
+		}
 
 
-		var sentimentPromise = trackHashtagSentiment.get($scope.param);
+		
 
-		sentimentPromise.then(function(res){	
-			var data = res.data.sentiment;					
+		function hashSentiment(data){
 			$('#sentiChart').empty();
 
 			data[0].data[0]['point'] = point.point;
 			data[0].data[1]['point'] = point.point;
 			Charts.genSplineChart('#sentiChart','Sentiment of', $scope.param, data[0].date, "Sentiment", data[0].data);
-		});	
+		}
 
 	})
 
