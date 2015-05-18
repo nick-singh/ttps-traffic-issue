@@ -74,12 +74,13 @@ def get_hash_assiciation(start_date=None, end_date=None, hashtag='trinidad'):
 	for id in tweet_id_list:
 		tags = conn.zrangebyscore('tweetId:'+id,start_date,end_date)
 		for t in tags:
-			if count < 8:				
-				if t in hashtags.keys():
-					hashtags[t] += 1
-				else :
-					hashtags[t] = 1	
-					count += 1
+			if count < 8:	
+				if t != hashtag:						
+					if t in hashtags.keys():
+						hashtags[t] += 1
+					else :
+						hashtags[t] = 1	
+						count += 1
 			else :
 				break
 	obj = {
@@ -161,6 +162,22 @@ def track_hashtag_freq(hashtag='trinidad'):
 			"date":_date,
 			"data":[{"name":"freq", "data" : freq}]})
 	return hashtag_freq
+
+
+
+def hashtag_dates(hashtag='trinidad'):
+	conn = Redis()
+	end = time.time()
+	start = conn.zrangebyscore('hashtags:'+hashtag,'-inf','+inf',0,1,True)[0][1]	
+	_date = []	
+	while start < end:		
+		temp = start + ONE_WEEK_IN_SECONDS # get one week later						
+		_date.append({
+			"unix":start, 
+			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
+		})
+		start+=ONE_WEEK_IN_SECONDS				
+	return _date[::-1]		
 
 
 

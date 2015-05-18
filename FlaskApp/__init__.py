@@ -1,12 +1,10 @@
 from flask import Flask
-
-FlaskApp = Flask(__name__, static_url_path = "")
-
-
 import os, datetime, json
 import redis_manager
 from flask import jsonify, abort, make_response, request, url_for
 from flask.ext.httpauth import HTTPBasicAuth
+
+FlaskApp = Flask(__name__, static_url_path = "")
 
 
 
@@ -29,8 +27,16 @@ def get_number_of_weeks():
 	if weeks is not None:
 		return jsonify({"weeks":weeks}), 200
 	else:
-		return jsonify({"weeks":{}}), 404
-		
+		return jsonify({"weeks":{}}), 404		
+
+@FlaskApp.route('/get/hashtag/dates/<hashtag>', methods=["GET"])
+def get_hashtag_dates(hashtag):
+	dates = redis_manager.hashtag_dates(hashtag)
+	if dates is not None:
+		return jsonify({"dates":dates}), 200
+	else:
+		return jsonify({"dates":{}}), 404
+
 
 @FlaskApp.route('/get/top/hashtags/by/time/<start>/<end>/<limit>', methods=["GET"])
 def get_top_hashtags_by_time(start, end, limit):

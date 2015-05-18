@@ -17,7 +17,7 @@
           edges[data.hashtag] = {};
 
           $.each(data.assoication, function(i, d){
-            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link': i}; 
+            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'link': i}; 
             edges[data.hashtag][i] = nodes[i];
           });        
         });  
@@ -28,11 +28,11 @@
           nodes['No Related Hashtags Found'] = {'color':arborGraph.colour(),'shape':'dot','label':'No Related Hashtags Found', 'link' :'none'}; 
           edges[obj.hashtag] = {};
           edges[obj.hashtag]['No Related Hashtags Found'] = nodes['No Related Hashtags Found In Tweets'];
-        }else{
+        }else{          
           edges[obj.hashtag] = {};
-
+          nodes[obj.hashtag] = {'color':arborGraph.colour(),'shape':'dot','label':obj.hashtag, 'link' :obj.hashtag}; 
           $.each(obj.assoication, function(i, d){
-            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'mass' : d, 'link' :i}; 
+            nodes[i] = {'color':arborGraph.colour(),'shape':'dot','label':i, 'link' :i}; 
             edges[obj.hashtag][i] = nodes[i];
           });
         }        
@@ -194,6 +194,12 @@
 
 
      genSplineChart : function(id, titleTx, subtitleTx, xAxisD, yAxis_text, seriesD){  
+
+        if(seriesD.length === 2){
+          $.each(seriesD[1].data, function(i, d){
+            seriesD[1].data[i] = seriesD[1].data[i] * -1;            
+          });
+        }
         
         $(id).highcharts({
           chart: {

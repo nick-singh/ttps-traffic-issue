@@ -16,3 +16,7 @@
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
+
+.tweets-holder > ul > .list-group-item-info, .tweets-holder > ul >.list-group-item-danger{
+	color: #000000;
+}

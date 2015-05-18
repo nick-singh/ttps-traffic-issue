@@ -2,12 +2,25 @@
 
 	angular.module('caribTrack.factories',[])
 
-
 	.service('getNumberWeeks', function($http){
 		var deffered = {};		
 
 		deffered.get = function(){
 			return $http.get('get/number/weeks')
+			.error(function(res){
+				console.log(res);
+			});
+		};
+
+		return deffered;
+
+	})
+
+	.service('getHashtagDates', function($http){
+		var deffered = {};		
+
+		deffered.get = function(hashtag){
+			return $http.get('/get/hashtag/dates/'+hashtag)
 			.error(function(res){
 				console.log(res);
 			});

@@ -124,30 +124,17 @@
 
 	})
 
-	.controller('RealTimeCtrl',function($scope, Factories){
-
-		init();			
-		
-		function init(){
-			Factories.selectMenuItem('realtime');			
-		}
-
-		console.log('RealTimeCtrl');
-
-	})
-
 
 	.controller('HashtagCtrl',function($scope, $routeParams, $sce, getHashtagAssociation,
-										Factories, trackHashtagFreq, getNumberWeeks,
+										Factories, trackHashtagFreq, getHashtagDates,
 										trackHashtagSentiment, getTweetTextByTime){
 
 		$scope.param = $routeParams.tag;
-		$scope.numWeeks = [];
+		$scope.hashDates = [];
 
-		var numWeeks = getNumberWeeks.get();
-		numWeeks.then(function(data){	
-			
-			$scope.weeks = data.data.weeks;			
+		var hashDates = getHashtagDates.get($scope.param);
+		hashDates.then(function(data){				
+			$scope.weeks = data.data.dates;			
 			$scope.week = $scope.weeks[0].unix;
 			var end = parseInt($scope.week),
 			start = end - (7 * 86400);	
@@ -157,8 +144,18 @@
 		var point = {
 			"point": {
                   events: {
-                      click: function() {                          
-                        console.log(this);
+                      click: function() { 
+                      	var that = this;
+                      	$.each($scope.weeks, function(i, d){
+                      		if(d.datetime === that.category){
+                      			$($("#dates option")[i]).attr('selected', true);  
+                      			return;                    			
+                      		}
+                      	}); 
+
+                      	var end = Math.round(+new Date(that.category)/1000),
+						start = end - (7 * 86400);	
+						init(start, end);                   
                       }
                   }
               }
@@ -174,8 +171,7 @@
 		function init(start, end){
 			Factories.selectMenuItem('tweetsdetails');
 			
-			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);
-			// var hashAssoPromise = getHashtagAssociation.get(1414668800,1427673600, $scope.param);
+			var hashAssoPromise = getHashtagAssociation.get(start, end, $scope.param);			
 
 			hashAssoPromise.then(function(res){	
 				var data = res.data.hashtags,
@@ -195,8 +191,7 @@
 				};
 			});				
 
-			
-			// var tweetTextPromise = getTweetTextByTime.get(1414668800,1427673600, $scope.param);
+						
 			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
 			$scope.currentPage = 1;
   			$scope.pageSize = 5;
@@ -207,7 +202,7 @@
 				var data = res.data.tweets;
 				$.each(data, function(index, tweet){
 					tweet.text = tweet.text.parseURL().parseHashtag().parseUsername();
-					// console.log(tweet.sentiment);
+					tweet.sentiment = ((tweet.sentiment > 0) ? "list-group-item-info": "list-group-item-danger");                      					
 				});
 				$scope.tweets = data;								
 			});					
@@ -229,10 +224,24 @@
 		sentimentPromise.then(function(res){	
 			var data = res.data.sentiment;					
 			$('#sentiChart').empty();
+
 			data[0].data[0]['point'] = point.point;
 			data[0].data[1]['point'] = point.point;
 			Charts.genSplineChart('#sentiChart','Sentiment of', $scope.param, data[0].date, "Sentiment", data[0].data);
 		});	
+
+	})
+
+
+	.controller('RealTimeCtrl',function($scope, Factories){
+
+		init();			
+		
+		function init(){
+			Factories.selectMenuItem('realtime');			
+		}
+
+		console.log('RealTimeCtrl');
 
 	})
 
