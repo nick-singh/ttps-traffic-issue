@@ -8,8 +8,6 @@
 
 		Factories.selectMenuItem('home');			
 
-		// $scope.finished = [0,0,0];
-
 		$scope.$on('LOAD',function(){$scope.loading=true});
 		
 		$scope.$on('UNLOAD',function(){$scope.loading=false});			
@@ -209,7 +207,7 @@
 					$scope.$emit("Tweets");
 					$.each(data, function(index, tweet){
 						tweet.text = tweet.text.parseURL().parseHashtag().parseUsername();
-						tweet.sentiment = ((tweet.sentiment > 0) ? "list-group-item-info": "list-group-item-danger");                      					
+						tweet.sentiment = ((tweet.sentiment === 0) ? "list-group-item-danger": "list-group-item-info");                      					
 					});
 					$scope.tweets = data;
 				}else{

@@ -42,10 +42,10 @@ def number_of_weeks():
 		start += ONE_WEEK_IN_SECONDS
 	if end - start > 0:
 		start = start + (end - start)
-	temp = {
-		"unix":start, 
-		"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
-	}
+		temp = {
+			"unix":start, 
+			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
+		}
 	week_start.append(temp)
 	week_start.pop(0)
 	return week_start[::-1]
