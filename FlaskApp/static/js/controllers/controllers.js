@@ -207,7 +207,7 @@
 					$scope.$emit("Tweets");
 					$.each(data, function(index, tweet){
 						tweet.text = tweet.text.parseURL().parseHashtag().parseUsername();
-						tweet.sentiment = ((tweet.sentiment === 0) ? "list-group-item-danger": "list-group-item-info");                      					
+						tweet.sentiment = ((tweet.sentiment > 0) ? "list-group-item-info": "list-group-item-danger");                      					
 					});
 					$scope.tweets = data;
 				}else{
