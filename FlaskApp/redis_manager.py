@@ -46,6 +46,13 @@ def number_of_weeks():
 			"unix":start, 
 			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
 		}
+	else :
+		start -= ONE_WEEK_IN_SECONDS
+		start = start + (end - start)
+		temp = {
+			"unix":start, 
+			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
+		}
 	week_start.append(temp)
 	week_start.pop(0)
 	return week_start[::-1]
@@ -183,7 +190,8 @@ def hashtag_dates(hashtag='trinidad'):
 			"unix":start, 
 			"datetime": datetime.fromtimestamp(start).strftime("%B %d, %Y")
 		})
-		start+=ONE_WEEK_IN_SECONDS				
+		start+=ONE_WEEK_IN_SECONDS
+
 	return _date[::-1]		
 
 
