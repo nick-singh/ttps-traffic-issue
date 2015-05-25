@@ -238,7 +238,7 @@
      },
 
 
-    jsonChart : function(id, title, subtitle, series){
+    jsonChart : function(id, title, subtitle, ytitle, series){
       
       $(id).highcharts({
           chart: {
@@ -250,16 +250,19 @@
           subtitle: {
               text: subtitle
           },
-          xAxis: {
-              type: 'datetime',
-              title: {
-                  text: 'Date'
+          xAxis:  {
+            labels: {
+              formatter: function () {
+                console.log(this.value);
+                return Highcharts.dateFormat('%e. %b', this.value * 1000);
               }
+            },
+            tickPixelInterval: 200
           },
           yAxis: {
-              // title: {
-              //     text: ytitle
-              // },
+              title: {
+                  text: ytitle
+              },
               min: 0
           },
 

@@ -281,9 +281,9 @@
 			$("#selectFirstGraph").empty();
 			$("#selectSecondGraph").empty();
 			$("#selectThirdGraph").empty();
-			Charts.jsonChart('#selectFirstGraph','Positive Sentiment of', "Hashtags",[]);
-			Charts.jsonChart('#selectSecondGraph','Negative Sentiment of', "Hashtags",[]);			
-			Charts.jsonChart('#selectThirdGraph','Frequency of', "Hashtags",[]);
+			Charts.jsonChart('#selectFirstGraph','Positive Sentiment of', "Hashtags", "Tweets",[]);
+			Charts.jsonChart('#selectSecondGraph','Negative Sentiment of', "Hashtags", "Tweets",[]);			
+			Charts.jsonChart('#selectThirdGraph','Frequency of', "Hashtags", "Tweets",[]);
 			
 		}
 
@@ -342,9 +342,9 @@
 			$("#selectFirstGraph").empty();
 			$("#selectSecondGraph").empty();
 			$("#selectThirdGraph").empty();
-			Charts.jsonChart('#selectFirstGraph','Positive Sentiment of', "Hashtags",[]);
-			Charts.jsonChart('#selectSecondGraph','Negative Sentiment of', "Hashtags",[]);			
-			Charts.jsonChart('#selectThirdGraph','Frequency of', "Hashtags",[]);
+			Charts.jsonChart('#selectFirstGraph','Positive Sentiment of', "Hashtags", "Tweets",[]);
+			Charts.jsonChart('#selectSecondGraph','Negative Sentiment of', "Hashtags", "Tweets",[]);			
+			Charts.jsonChart('#selectThirdGraph','Frequency of', "Hashtags", "Tweets",[]);
 		}
 
 

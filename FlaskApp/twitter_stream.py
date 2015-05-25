@@ -49,6 +49,8 @@ p = Process(target=exe_stream(["#TTPS","TTPS",
             "@cnewslive","@tv6tnt",
             "@expressupdates","#Trinidad Express", 
             "@GuardianTT" ,"T&T Guardian"]))
+
+# p = Process(target=exe_stream(["taylor swift"]))
 p.start()
 p.join()
 #	    "@ctelevision","@CNC3TV"])

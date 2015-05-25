@@ -189,7 +189,7 @@ def track_hashtag_freq_ind(hashtag='trinidad'):
 		temp = start + ONE_WEEK_IN_SECONDS # get one week later
 		num_hash_per_week = get_hashtag_tweet_count_by_time(start,temp,hashtag)			
 		freq.append({
-			"x" : start, #datetime.fromtimestamp(start).strftime("%B %d, %Y"),
+			"x" : datetime.fromtimestamp(start).strftime("%s"),
 			"y" : num_hash_per_week[hashtag],
 			"name" : hashtag
 			})			
@@ -275,12 +275,12 @@ def track_hashtag_sentiment_ind(hashtag='trinidad'):
 		temp = start + ONE_WEEK_IN_SECONDS # get one week later
 		hash_sentiment_per_week = get_sentiment_of_hashtag_by_time(start,temp,hashtag)			
 		pos.append({
-			"x" : start, #datetime.fromtimestamp(start).strftime("%B %d, %Y"),
+			"x" : datetime.fromtimestamp(start).strftime("%s"),
 			"y"	: hash_sentiment_per_week['pos'],
 			"name" : hashtag
 		})
 		neg.append({
-			"x" : start, #datetime.fromtimestamp(start).strftime("%B %d, %Y"),
+			"x" : datetime.fromtimestamp(start).strftime("%s"),
 			"y"	: hash_sentiment_per_week['neg']*-1,
 			"name" : hashtag
 		})

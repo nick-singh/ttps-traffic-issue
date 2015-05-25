@@ -58,6 +58,8 @@ def add_to_hashList(conn, text, tweet_id, timestamp):
 	for ht in hashtags:
 		if len(ht) > 1 and word_in_text(ht,text):
 			print "found " + ht +" in tweet"
+			# conn.zincrby(HASHTAGS_FREQ_SET,ht,TWEET_SCORE)
+
 			conn.zadd(HASHTAGS_SET+ht, tweet_id, timestamp)	
 			# Add all the hashtags that are associated with this tweet
 			conn.zadd(TWEET_HASHTAG_SET+tweet_id, ht, timestamp)
