@@ -1,0 +1,70 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Compare Hashtags <small>Statistics Overview</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> Comparing...
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row" id="content" ng-hide = "loading" >                    
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-offset-4 col-lg-8">
+                    <div class="row">
+                        <form class="form-inline" role="form">
+                          <div class="form-group">
+                            <label>Select</label>
+                            <input type="text" class="form-control" ng-model="selectFirst" bs-options="hash for hash in hashList" placeholder="Search Hashtag" bs-typeahead>
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-default" ng-click="getVals()">Add</button>
+                          </div>
+
+                          <div class="form-group" ng-show="vals">
+                            <button class="btn btn-default" ng-click="reset()">Reset</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div> 
+            <div class="row tag-top-padding">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div id="selectFirstGraph" class="charts"></div>                    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div id="selectSecondGraph" class="charts"></div>                    
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div id="selectThirdGraph" class="charts"></div>                    
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </div>
+    </div>  
+    <div class="row" ng-show="loading">
+        <div class="col-lg-offset-5 col-md-offset-3 col-xs-offset-3">
+            <img src="img/loader.gif">
+        </div>
+    </div>                          
+</div>

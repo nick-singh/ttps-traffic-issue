@@ -126,6 +126,34 @@
 		return deffered;
 	})
 
+
+	.service('trackHashtagFreqInd', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(hashtag){			
+			return $http.get('/get/hashtag/freq/preformance/ind/'+hashtag)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
+
+	.service('trackHashtagSentimentInd', function($http, $q){
+		var deffered = {};		
+
+		deffered.get = function(hashtag){			
+			return $http.get('/get/hashtag/sentiment/preformance/ind/'+hashtag)
+
+			.error(function(res){
+				console.log(res);
+			});			
+		};
+		return deffered;
+	})
+
 	.service('getTweetTextByTime', function($http, $q){
 		var deffered = {};		
 

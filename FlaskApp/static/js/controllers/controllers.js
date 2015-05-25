@@ -251,15 +251,102 @@
 	})
 
 
-	.controller('RealTimeCtrl',function($scope, Factories){
+	.controller('CompareCtrl',function($scope, $q, Factories, getHashList,
+										trackHashtagFreqInd, trackHashtagSentimentInd){
+		
+		$scope.$on('LOAD',function(){$scope.loading=true});
+		
+		$scope.$on('UNLOAD',function(){$scope.loading=false});
+
+
+		$scope.$on('HasVals',function(){$scope.vals=true});
+		
+		$scope.$on('NoVals',function(){$scope.vals=false});
 
 		init();			
 		
-		function init(){
-			Factories.selectMenuItem('realtime');			
+		function init(){			
+
+			Factories.selectMenuItem('compare');	
+
+			$scope.$emit('NoVals');
+
+			$scope.selectFirst = '';			
+
+			var hashlist = getHashList.get();
+			hashlist.then(function(res){
+				$scope.hashList = res.data.hashtags;								
+			});	
+
+			$("#selectFirstGraph").empty();
+			$("#selectSecondGraph").empty();
+			$("#selectThirdGraph").empty();
+			Charts.jsonChart('#selectFirstGraph','Positive Sentiment of', "Hashtags",[]);
+			Charts.jsonChart('#selectSecondGraph','Negative Sentiment of', "Hashtags",[]);			
+			Charts.jsonChart('#selectThirdGraph','Frequency of', "Hashtags",[]);
+			
 		}
 
-		console.log('RealTimeCtrl');
+		function hashFreq(id, data){
+			var chart = $(id).highcharts();
+	        chart.addSeries({
+	            name: data.name,
+	            data: data.freq
+	        });						
+		}
+
+
+		function hashPosSentiment(id, data){		
+			var chart = $(id).highcharts();
+	        chart.addSeries({
+	            name: data.name,
+	            data: data.pos
+	        });				
+		}
+
+		function hashNegSentiment(id, data){
+			console.log(JSON.stringify(data));
+			var chart = $(id).highcharts();
+	        chart.addSeries({
+	            name: data.name,
+	            data: data.neg
+	        });				
+		}
+
+
+		function PlotCharts(first){
+			$scope.$emit('LOAD');
+
+			var trackSentiment = trackHashtagSentimentInd.get(first),						
+			trackFreq = trackHashtagFreqInd.get(first);
+
+			$q.all([trackSentiment, trackFreq]).then(function(allData){
+				$scope.$emit('UNLOAD');
+				// console.log(JSON.stringify(allData));
+				$scope.selectFirst = '';
+				hashFreq("#selectThirdGraph",allData[1].data.hashtags[0]);
+				hashNegSentiment("#selectSecondGraph",allData[0].data.sentiment[0]);				
+				hashPosSentiment("#selectFirstGraph",allData[0].data.sentiment[0]);
+				$scope.$emit('HasVals');
+			});
+		}
+
+		$scope.getVals = function(){
+			PlotCharts($scope.selectFirst)
+		};
+
+		$scope.reset = function(){
+
+			$scope.$emit('NoVals');
+			$scope.selectFirst = '';			
+			$("#selectFirstGraph").empty();
+			$("#selectSecondGraph").empty();
+			$("#selectThirdGraph").empty();
+			Charts.jsonChart('#selectFirstGraph','Positive Sentiment of', "Hashtags",[]);
+			Charts.jsonChart('#selectSecondGraph','Negative Sentiment of', "Hashtags",[]);			
+			Charts.jsonChart('#selectThirdGraph','Frequency of', "Hashtags",[]);
+		}
+
 
 	})
 

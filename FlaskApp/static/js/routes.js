@@ -5,7 +5,9 @@
 		'caribTrack.controllers',
 		'caribTrack.factories',
 		'angularUtils.directives.dirPagination',
-		'ngRoute'
+		'ngRoute',
+		'ngAnimate', 
+		'mgcrea.ngStrap'
 
 	])
 
@@ -41,10 +43,10 @@
 				templateUrl : 'partials/hashdetails.html'
 			})
 			
-			.when('/realtime',
+			.when('/compare',
 			{
-				controller : 'RealTimeCtrl',
-				templateUrl : 'partials/realtime.html'
+				controller : 'CompareCtrl',
+				templateUrl : 'partials/compare.html'
 			})
 			
 			.when('/hashtag/:tag',

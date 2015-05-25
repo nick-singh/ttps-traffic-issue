@@ -81,6 +81,16 @@ def track_hashtag_freq(hashtag):
 		return jsonify({"hashtags":{}}), 404
 
 
+@FlaskApp.route('/get/hashtag/freq/preformance/ind/<hashtag>', methods=["GET"])
+def track_hashtag_freq_ind(hashtag):
+	hash_freq = redis_manager.track_hashtag_freq_ind(hashtag)
+
+	if hash_freq is not None:
+		return jsonify({"hashtags":hash_freq}), 200
+	else:
+		return jsonify({"hashtags":{}}), 404
+
+
 @FlaskApp.route('/get/sentiment/by/time/<start>/<end>/<hashtag>', methods=['GET'])		
 def get_sentiment_of_hashtag_by_time(start, end,hashtag):
 	sentiment = redis_manager.get_sentiment_of_hashtag_by_time(start, end, hashtag)
@@ -94,6 +104,16 @@ def get_sentiment_of_hashtag_by_time(start, end,hashtag):
 @FlaskApp.route('/get/hashtag/sentiment/preformance/<hashtag>', methods=["GET"])
 def track_hashtag_sentiment(hashtag):
 	sentiment_freq = redis_manager.track_hashtag_sentiment(hashtag)
+
+	if sentiment_freq is not None:
+		return jsonify({"sentiment":sentiment_freq}), 200
+	else:
+		return jsonify({"sentiment":{}}), 404
+
+
+@FlaskApp.route('/get/hashtag/sentiment/preformance/ind/<hashtag>', methods=["GET"])
+def track_hashtag_sentiment_ind(hashtag):
+	sentiment_freq = redis_manager.track_hashtag_sentiment_ind(hashtag)
 
 	if sentiment_freq is not None:
 		return jsonify({"sentiment":sentiment_freq}), 200

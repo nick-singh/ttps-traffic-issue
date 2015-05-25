@@ -24,3 +24,7 @@
 .tweets-holder > ul > .list-group-item-info, .tweets-holder > ul >.list-group-item-danger{
 	color: #000000;
 }
+
+.tag-top-padding{
+	margin-top: 10px;
+}

@@ -178,6 +178,28 @@ def track_hashtag_freq(hashtag='trinidad'):
 	return hashtag_freq
 
 
+def track_hashtag_freq_ind(hashtag='trinidad'):
+	conn = Redis()	
+	end = time.time()
+	start = conn.zrangebyscore('hashtags:'+hashtag,'-inf','+inf',0,1,True)[0][1]	
+	hashtag_freq = []
+	_date = []
+	freq = []
+	while start < end:		
+		temp = start + ONE_WEEK_IN_SECONDS # get one week later
+		num_hash_per_week = get_hashtag_tweet_count_by_time(start,temp,hashtag)			
+		freq.append({
+			"x" : start, #datetime.fromtimestamp(start).strftime("%B %d, %Y"),
+			"y" : num_hash_per_week[hashtag],
+			"name" : hashtag
+			})			
+		start+=ONE_WEEK_IN_SECONDS
+	hashtag_freq.append({
+			"name":hashtag,
+			"freq":freq})
+	return hashtag_freq
+
+
 
 def hashtag_dates(hashtag='trinidad'):
 	conn = Redis()
@@ -237,6 +259,37 @@ def track_hashtag_sentiment(hashtag='trinidad'):
 	hashtag_freq.append({
 			"date":_date,			
 			"data": [{"name" : "pos", "data":pos},{"name" : "neg", "data":neg}]})
+	return hashtag_freq
+
+
+
+def track_hashtag_sentiment_ind(hashtag='trinidad'):
+	conn = Redis()	
+	end = time.time()
+	start = conn.zrangebyscore('hashtags:'+hashtag,'-inf','+inf',0,1,True)[0][1]	
+	hashtag_freq = []
+	_date = []
+	pos = []
+	neg = []
+	while start < end:		
+		temp = start + ONE_WEEK_IN_SECONDS # get one week later
+		hash_sentiment_per_week = get_sentiment_of_hashtag_by_time(start,temp,hashtag)			
+		pos.append({
+			"x" : start, #datetime.fromtimestamp(start).strftime("%B %d, %Y"),
+			"y"	: hash_sentiment_per_week['pos'],
+			"name" : hashtag
+		})
+		neg.append({
+			"x" : start, #datetime.fromtimestamp(start).strftime("%B %d, %Y"),
+			"y"	: hash_sentiment_per_week['neg']*-1,
+			"name" : hashtag
+		})
+		start+=ONE_WEEK_IN_SECONDS
+
+	hashtag_freq.append({
+			"name" : hashtag,
+			"pos" : pos,
+			"neg" : neg})
 	return hashtag_freq
 
 

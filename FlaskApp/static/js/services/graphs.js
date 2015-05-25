@@ -235,8 +235,45 @@
           },
           series: seriesD
       });
-     }
-  }
+     },
 
+
+    jsonChart : function(id, title, subtitle, series){
+      
+      $(id).highcharts({
+          chart: {
+              type: 'spline'
+          },
+          title: {
+              text: title
+          },
+          subtitle: {
+              text: subtitle
+          },
+          xAxis: {
+              type: 'datetime',
+              title: {
+                  text: 'Date'
+              }
+          },
+          yAxis: {
+              // title: {
+              //     text: ytitle
+              // },
+              min: 0
+          },
+
+          plotOptions: {
+              spline: {
+                  marker: {
+                      enabled: true
+                  }
+              }
+          },
+
+          series: series
+      });
+    }
+  }
 
 })(jQuery);
