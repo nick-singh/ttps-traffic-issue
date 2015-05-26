@@ -12,6 +12,7 @@ HASHTAGS_FREQ_SET = 'hashtagsFreq:'
 HASHTAGS_SET = 'hashtags:'
 TWEET_TIME_SET = 'tweetTime:'
 TWEET_HASHTAG_SET = 'tweetId:'
+HASHTAG_LIST = 'hashtagL:'
 
 STOPS = set(stopwords.words("english"))
 
@@ -58,8 +59,9 @@ def add_to_hashList(conn, text, tweet_id, timestamp):
 	for ht in hashtags:
 		if len(ht) > 1 and word_in_text(ht,text):
 			print "found " + ht +" in tweet"
-			# conn.zincrby(HASHTAGS_FREQ_SET,ht,TWEET_SCORE)
-
+			# Incirment the frequency of the hashtag
+			conn.zincrby(HASHTAGS_FREQ_SET,ht,TWEET_SCORE)
+			# Add the time and id associated with the hashtag
 			conn.zadd(HASHTAGS_SET+ht, tweet_id, timestamp)	
 			# Add all the hashtags that are associated with this tweet
 			conn.zadd(TWEET_HASHTAG_SET+tweet_id, ht, timestamp)
@@ -78,20 +80,21 @@ def add_tweet(conn, tweet):
 		# if there are hashtags in the hashtagsList
 		if hashtagsList:
 			# for each key and value
-			for key,value in hashtagsList:	
-				# zincrby adds a new hashtag if it does not 
-				# exists and gives it a default score of one
-				# else it will incriment the current score of the hashtag
-				# we will be able to get the most popular hashtag used 
-				# in all of the tweets store by time	
-				# 
-				conn.zincrby(HASHTAGS_FREQ_SET,key,TWEET_SCORE)
-				# add the tweet associated with the hashtag in another
-				# sorted set and use its timestamp as the score
-				# make sure the hashtags are not stop words
-				# 
+			for key,value in hashtagsList:					
 				if key not in STOPS:
-					conn.zadd(HASHTAGS_SET+key, tweet_id, timestamp)					
+					# zincrby adds a new hashtag if it does not 
+					# exists and gives it a default score of one
+					# else it will incriment the current score of the hashtag
+					# we will be able to get the most popular hashtag used 
+					# in all of the tweets store by time	
+					# 
+					conn.zincrby(HASHTAGS_FREQ_SET,key,TWEET_SCORE)
+					# add the tweet associated with the hashtag in another
+					# sorted set and use its timestamp as the score
+					# make sure the hashtags are not stop words
+					# 
+					conn.zadd(HASHTAGS_SET+key, tweet_id, timestamp)
+										
 					print "added to " + key
 					print conn.zscore(HASHTAGS_FREQ_SET, key)
 
