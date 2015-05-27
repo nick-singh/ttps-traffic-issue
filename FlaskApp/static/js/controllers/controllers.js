@@ -332,7 +332,13 @@
 		}
 
 		$scope.getVals = function(){
-			PlotCharts($scope.selectFirst)
+			if($scope.selectFirst !== ''){
+				PlotCharts($scope.selectFirst);
+				$("#hashInput").removeClass('has-error');
+			}else{
+				alert("Please Select a Hashtag");
+				$("#hashInput").addClass('has-error');
+			}			
 		};
 
 		$scope.reset = function(){
