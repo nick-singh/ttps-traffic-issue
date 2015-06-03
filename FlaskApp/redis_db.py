@@ -12,7 +12,6 @@ HASHTAGS_FREQ_SET = 'hashtagsFreq:'
 HASHTAGS_SET = 'hashtags:'
 TWEET_TIME_SET = 'tweetTime:'
 TWEET_HASHTAG_SET = 'tweetId:'
-HASHTAG_LIST = 'hashtagL:'
 
 STOPS = set(stopwords.words("english"))
 
