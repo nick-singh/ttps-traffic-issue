@@ -45,9 +45,9 @@ def dump_to_json(file_name_and_path, data):
 
 #exe_stream(["TTPS"])
 
-p = Process(target=exe_stream(["#TTPS","TTPS",
-            "@cnewslive","@tv6tnt",
-            "@expressupdates","#Trinidad Express","@GuardianTT"]))
+# p = Process(target=exe_stream(["#DanielBryan", "#thankyoudanielbryan"]))
+
+p = Process(target=exe_stream(["@cnewslive","@tv6tnt", "@expressupdates","#Trinidad Express","@GuardianTT"]))
 
 # p = Process(target=exe_stream(["taylor swift"]))
 p.start()

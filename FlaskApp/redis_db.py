@@ -73,7 +73,8 @@ def add_tweet(conn, tweet):
 	hashtagsList = get_hashtags(tweet)
 	# get the time the tweet was created to use 
 	# as the score 
-	timestamp = date_to_unixtimestamp(tweet['created_at'])
+	# timestamp = date_to_unixtimestamp(tweet['created_at'])
+	timestamp = time.time()
 	
 	try:
 		# if there are hashtags in the hashtagsList

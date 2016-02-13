@@ -5,7 +5,7 @@ import redis_manager
 # from websocket import handle_websocket
 from flask import Flask
 from flask import jsonify, abort, make_response, request, url_for
-from flask.ext.httpauth import HTTPBasicAuth
+# from flask.ext.httpauth import HTTPBasicAuth
 
 FlaskApp = Flask(__name__, static_url_path = "")
 

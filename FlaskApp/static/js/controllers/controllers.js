@@ -193,7 +193,7 @@
 				};
 			});				
 
-						
+			console.log(start, end)						
 			var tweetTextPromise = getTweetTextByTime.get(start, end, $scope.param);
 			$scope.currentPage = 1;
   			$scope.pageSize = 5;
